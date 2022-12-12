@@ -11,7 +11,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@PropertySource("classpath:/application.yml")
+@PropertySource("classpath:/application.properties")
 public class DatabaseConfig {
 
     @Bean
