@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.gom.mgo.jwt.JwtAuthenticationFilter;
+import com.gom.mgo.jwt.JwtTokenProvider;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -18,7 +21,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
     private final JwtTokenProvider jwtTokenProvider;
 
-    // authenticationManager를 Bean 등록합니다.
     @Bean
     @Override 
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -32,8 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable()
                 .authorizeRequests()// 요청에 대한 사용권한 체크
                 .antMatchers("/test").authenticated()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasRole("USER")
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/**").permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),

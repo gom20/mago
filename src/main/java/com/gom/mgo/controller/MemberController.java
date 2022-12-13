@@ -2,14 +2,14 @@ package com.gom.mgo.controller;
 
 import javax.validation.Valid;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gom.mgo.dto.APIResponse;
-import com.gom.mgo.dto.CreateMember;
+import com.gom.mgo.dto.member.CreateMember;
+import com.gom.mgo.dto.member.Login;
 import com.gom.mgo.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,10 +29,11 @@ public class MemberController {
         return APIResponse.of(memberService.createMember(request));
     }
 
-	@GetMapping("/login")
-	public String login() {
+	@PostMapping("/login")
+	public APIResponse<Login.Response> login(@RequestBody final Login.Request request) {
 		log.info("login");
-		return "login";
+        log.info("user id = {}", request.getId());
+        return APIResponse.of(memberService.login(request));
 	}
 
 	@PostMapping("/logout")

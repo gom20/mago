@@ -1,4 +1,4 @@
-package com.gom.mgo.dto;
+package com.gom.mgo.dto.member;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
