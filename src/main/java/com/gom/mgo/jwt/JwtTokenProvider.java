@@ -1,8 +1,7 @@
-package com.gom.mgo.config;
+package com.gom.mgo.jwt;
 
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-	private String secretKey = "myprojectsecret";
+	private String secretKey = "myprojectsecretmyprojectsecretsecret";
 
 	// 토큰 유효시간 30분
 	private long tokenValidTime = 30 * 60 * 1000L;
@@ -38,9 +37,9 @@ public class JwtTokenProvider {
 	}
 
 	// JWT 토큰 생성
-	public String createToken(String userPk, List<String> roles) {
+	public String createToken(String userPk) {
 		Claims claims = Jwts.claims().setSubject(userPk); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
-		claims.put("roles", roles); // 정보는 key / value 쌍으로 저장된다.
+//		claims.put("roles", roles); // 정보는 key / value 쌍으로 저장된다.
 		Date now = new Date();
 		return Jwts.builder().setClaims(claims) // 정보 저장
 				.setIssuedAt(now) // 토큰 발행 시간 정보

@@ -1,4 +1,4 @@
-package com.gom.mgo.config;
+package com.gom.mgo.jwt;
 
 import java.io.IOException;
 
