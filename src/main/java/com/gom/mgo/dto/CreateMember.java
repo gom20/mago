@@ -1,9 +1,10 @@
 package com.gom.mgo.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.gom.mgo.entity.Member;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class CreateMember {
     @ToString
 	public static class Request {
         @NotNull
-        @Size(min = 1, max = 16, message = "userId size must be 1 to 16")
+        @Size(min = 1, max = 40, message = "id size must be 1 to 40")
 		private String id;
         
         @NotNull
