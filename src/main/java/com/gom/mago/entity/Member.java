@@ -35,7 +35,7 @@ public class Member implements UserDetails {
  
     @Id
     @Column(updatable = false, unique = true, nullable = false)
-    private String id;
+    private String username;
  
     @Column(nullable = false)
     private String password;
@@ -59,7 +59,7 @@ public class Member implements UserDetails {
  
     @Override
     public String getUsername() {
-        return id;
+        return username;
     }
  
     @Override

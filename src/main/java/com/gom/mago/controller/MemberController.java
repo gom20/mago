@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("members")
+@RequestMapping("api/members")
 public class MemberController {
 
 	private final MemberService memberService;
@@ -32,7 +32,7 @@ public class MemberController {
 	@PostMapping("/login")
 	public APIResponse<Login.Response> login(@RequestBody final Login.Request request) {
 		log.info("login");
-        log.info("user id = {}", request.getId());
+        log.info("username = {}", request.getUsername());
         return APIResponse.of(memberService.login(request));
 	}
 

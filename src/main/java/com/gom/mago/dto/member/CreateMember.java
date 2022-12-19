@@ -22,8 +22,8 @@ public class CreateMember {
     @ToString
 	public static class Request {
         @NotNull
-        @Size(min = 1, max = 40, message = "id size must be 1 to 40")
-		private String id;
+        @Size(min = 1, max = 40, message = "username size must be 1 to 40")
+		private String username;
         
         @NotNull
         @Size(min = 1, max = 16, message = "password size must be 1 to 16")
@@ -37,11 +37,11 @@ public class CreateMember {
     @NoArgsConstructor
     @Builder
     public static class Response {
-        private String id;
+        private String username;
 
         public static Response fromEntity(@NotNull Member member){
             return Response.builder()
-                    .id(member.getId())
+                    .username(member.getUsername())
                     .build();
         }
     }
