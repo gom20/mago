@@ -34,7 +34,7 @@ public class MemberService  {
     @Transactional
     public Login.Response login(Login.Request request) {
     	// 1. 가입 여부 확인
-    	Member member = memberRepository.findById(request.getId())
+    	Member member = memberRepository.findByUsername(request.getUsername())
     		  .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
       
     	// 2. 비밀번호 확인

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.gom.mago.entity.Member;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    Optional<Member> findById(String id);
+    Optional<Member> findByUsername(String username);
     
     
 }
