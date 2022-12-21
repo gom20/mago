@@ -20,13 +20,18 @@ public class CreateMember {
     @NoArgsConstructor
     @Builder
     @ToString
-	public static class Request {
+	public static class Request {	       
         @NotNull
-        @Size(min = 1, max = 40, message = "username size must be 1 to 40")
-		private String username;
+        @Size(min = 1, max = 40, message = "email size must be 1 to 40")
+		private String email;
         
         @NotNull
-        @Size(min = 1, max = 16, message = "password size must be 1 to 16")
+        @Size(min = 1, max = 40, message = "name size must be 1 to 40")
+		private String name;
+
+        
+        @NotNull
+        @Size(min = 1, max = 40, message = "password size must be 1 to 16")
 		private String password;
 	}
 	
@@ -37,11 +42,11 @@ public class CreateMember {
     @NoArgsConstructor
     @Builder
     public static class Response {
-        private String username;
+        private String email;
 
-        public static Response fromEntity(@NotNull Member member){
+        public static Response from(@NotNull Member member){
             return Response.builder()
-                    .username(member.getUsername())
+                    .email(member.getEmail())
                     .build();
         }
     }

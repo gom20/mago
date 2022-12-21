@@ -32,7 +32,7 @@ public class MemberController {
 	@PostMapping("/login")
 	public APIResponse<Login.Response> login(@RequestBody final Login.Request request) {
 		log.info("login");
-        log.info("username = {}", request.getUsername());
+        log.info("email = {}", request.getEmail());
         return APIResponse.of(memberService.login(request));
 	}
 
