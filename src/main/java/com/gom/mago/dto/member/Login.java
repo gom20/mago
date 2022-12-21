@@ -22,7 +22,7 @@ public class Login {
     @ToString
 	public static class Request {
         @NotNull
-		private String username;
+		private String email;
         
         @NotNull
 		private String password;

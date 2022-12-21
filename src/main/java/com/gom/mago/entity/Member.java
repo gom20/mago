@@ -35,12 +35,15 @@ public class Member implements UserDetails {
  
     @Id
     @Column(updatable = false, unique = true, nullable = false)
-    private String username;
+    private String email;
+    
+    @Column(nullable = false)
+    private String name;
  
     @Column(nullable = false)
     private String password;
  
-    @ColumnDefault("ROLE_USER")
+    @ColumnDefault("USER")
     private String role;
  
     @Transient
@@ -59,7 +62,7 @@ public class Member implements UserDetails {
  
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
  
     @Override
