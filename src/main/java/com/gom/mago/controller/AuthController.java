@@ -1,16 +1,13 @@
 package com.gom.mago.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gom.mago.dto.APIResponse;
-import com.gom.mago.dto.member.CreateMember;
 import com.gom.mago.dto.member.Login;
-import com.gom.mago.service.MemberService;
+import com.gom.mago.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,15 +15,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/members")
-public class MemberController {
+@RequestMapping("api/auth")
+public class AuthController {
 
-	private final MemberService memberService;
+	private final AuthService authService;
 
-    @PostMapping("")
-    public APIResponse<CreateMember.Response> createMember(@Valid @RequestBody final CreateMember.Request request){
-    	log.info("createMember");
-        return APIResponse.of(memberService.createMember(request));
-    }
+	@PostMapping("/login")
+	public APIResponse<Login.Response> login(@RequestBody final Login.Request request) {
+		log.info("login");
+        log.info("email = {}", request.getEmail());
+        return APIResponse.of(authService.login(request));
+	}
 
+	@PostMapping("/logout")
+	public String logout() {
+		log.info("logout");
+		return "logout";
+	}
 }
