@@ -8,8 +8,8 @@ import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.gom.mago.dto.record.CreateFeed;
-import com.gom.mago.dto.record.FeedDTO;
+import com.gom.mago.dto.feed.CreateFeed;
+import com.gom.mago.dto.feed.FeedDTO;
 import com.gom.mago.entity.Feed;
 import com.gom.mago.repository.FeedRepository;
 
@@ -37,7 +37,7 @@ public class FeedService {
 	public List<FeedDTO> getFeeds() {
 		List<Feed> feeds = feedRepository.findAll();
 		List<FeedDTO> collect = feeds.stream()
-	            .map(f-> new FeedDTO(f.getId(), f.getUsername(), f.getFeed()))
+	            .map(f-> new FeedDTO(f.getId(), f.getName(), f.getFeed()))
 	            .collect(Collectors.toList());
 		return collect;
 	}

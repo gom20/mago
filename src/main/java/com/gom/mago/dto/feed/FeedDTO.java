@@ -1,4 +1,4 @@
-package com.gom.mago.dto.record;
+package com.gom.mago.dto.feed;
 
 import javax.validation.constraints.NotNull;
 
@@ -20,7 +20,7 @@ public class FeedDTO {
 	private Long id;
 	
     @NotNull
-	private String username;
+	private String name;
     
     @NotNull
 	private String feed;
