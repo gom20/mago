@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gom.mago.dto.APIResponse;
-import com.gom.mago.dto.record.FeedDTO;
-import com.gom.mago.dto.record.CreateFeed;
+import com.gom.mago.dto.feed.CreateFeed;
+import com.gom.mago.dto.feed.FeedDTO;
 import com.gom.mago.service.FeedService;
 
 import lombok.RequiredArgsConstructor;

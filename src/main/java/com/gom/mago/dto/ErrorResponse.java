@@ -13,10 +13,10 @@ import lombok.ToString;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class ErrorResponse {
-    private final Integer code;
+    private final int code;
     private final String message;
-
-    public static ErrorResponse of(Integer code, String message) {
+    
+    public static ErrorResponse of(int code, String message) {
         return new ErrorResponse(code, message);
     }
 }

@@ -1,4 +1,4 @@
-package com.gom.mago.dto.record;
+package com.gom.mago.dto.feed;
 
 import javax.validation.constraints.NotNull;
 
@@ -21,7 +21,7 @@ public class CreateFeed {
     @ToString
 	public static class Request {
         @NotNull
-		private String username;
+		private String name;
         
         @NotNull
 		private String feed;
@@ -34,11 +34,11 @@ public class CreateFeed {
     @NoArgsConstructor
     @Builder
     public static class Response {
-        private String username;
+        private String name;
 
         public static Response fromEntity(@NotNull Feed feed){
             return Response.builder()
-                    .username(feed.getUsername())
+                    .name(feed.getName())
                     .build();
         }
     }
