@@ -19,7 +19,7 @@ public enum ErrorCode {
 	// auth
 	LOGIN_FAIL_ERROR(200, "auth.checkIdAndPassword", HttpStatus.NOT_FOUND),
     DUPLICATE_USER_ERROR(201, "auth.duplicateUserError", HttpStatus.BAD_REQUEST),
-    PW_RESET_FAIL_ERROR(202, "auth.passwordResetFailError", HttpStatus.BAD_REQUEST);
+    RESET_PW_FAIL_ERROR(202, "auth.passwordResetFailError", HttpStatus.BAD_REQUEST);
 	
 	
 	private final int code;

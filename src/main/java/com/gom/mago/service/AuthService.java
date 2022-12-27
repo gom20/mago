@@ -62,10 +62,11 @@ public class AuthService {
     @Value("${spring.mail.username}")
     private String sender;
     
+    @Transactional
     public SendPassword.Response resetAndSendPassword(SendPassword.Request request) {
     	// 가입 여부 확인
     	Member member = authRepository.findByEmailAndName(request.getEmail(), request.getName())
-    			.orElseThrow(() -> new APIException(ErrorCode.PW_RESET_FAIL_ERROR));
+    			.orElseThrow(() -> new APIException(ErrorCode.RESET_PW_FAIL_ERROR));
     	
     	// 임시 비밀번호 설정
     	String tempPassword = RandomStringUtils.randomAlphanumeric(8);
@@ -84,7 +85,4 @@ public class AuthService {
         return SendPassword.Response.fromEntity(request.getEmail(), request.getName());
     }
     
-
-    
-
 }
