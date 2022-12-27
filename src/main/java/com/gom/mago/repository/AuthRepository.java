@@ -8,5 +8,6 @@ import com.gom.mago.entity.Member;
 
 public interface AuthRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByEmail(String email);
+    Optional<Member> findByEmailAndName(String email, String name);
       
 }
