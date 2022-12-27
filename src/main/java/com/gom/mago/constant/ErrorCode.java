@@ -17,8 +17,11 @@ public enum ErrorCode {
     SPRING_INTERNAL_ERROR(103, "common.internalServerError", HttpStatus.INTERNAL_SERVER_ERROR),
 
 	// auth
-	LOGIN_FAIL_ERROR(200, "auth.checkIdAndPassword", HttpStatus.NOT_FOUND);
-    
+	LOGIN_FAIL_ERROR(200, "auth.checkIdAndPassword", HttpStatus.NOT_FOUND),
+    DUPLICATE_USER_ERROR(201, "auth.duplicateUserError", HttpStatus.BAD_REQUEST),
+    PW_RESET_FAIL_ERROR(202, "auth.passwordResetFailError", HttpStatus.BAD_REQUEST);
+	
+	
 	private final int code;
     private final String message;
     private final HttpStatus httpStatus;

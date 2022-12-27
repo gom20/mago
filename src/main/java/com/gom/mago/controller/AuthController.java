@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gom.mago.dto.APIResponse;
 import com.gom.mago.dto.auth.CreateMember;
 import com.gom.mago.dto.auth.Login;
+import com.gom.mago.dto.auth.SendPassword;
 import com.gom.mago.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -40,5 +41,11 @@ public class AuthController {
 	public String logout() {
 		log.info("logout");
 		return "logout";
+	}
+	
+	@PostMapping("/sendPassword")
+	public APIResponse<SendPassword.Response> sendPassword(@Valid @RequestBody final SendPassword.Request request) {
+		log.info("sendPassword");
+		return APIResponse.of(authService.resetAndSendPassword(request));
 	}
 }
