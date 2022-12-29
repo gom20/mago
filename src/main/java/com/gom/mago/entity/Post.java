@@ -26,16 +26,17 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Feed {
+public class Post {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long uid;
     
-	@Column(updatable = false)
-	private String name;
+    @Column(updatable = false)
+    private String email;
 
 	@Column(nullable = false)
-	private String feed;
+	private String content;
 	
     @CreatedDate
     private LocalDateTime createdAt;

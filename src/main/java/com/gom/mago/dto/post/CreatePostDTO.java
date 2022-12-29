@@ -1,9 +1,8 @@
-package com.gom.mago.dto.auth;
+package com.gom.mago.dto.post;
 
 import javax.validation.constraints.NotNull;
 
-import com.gom.mago.dto.auth.CreateMember.Response;
-import com.gom.mago.entity.Member;
+import com.gom.mago.entity.Post;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-public class Login {
+public class CreatePostDTO {
 	
 	@Getter
     @Setter
@@ -25,8 +24,9 @@ public class Login {
 		private String email;
         
         @NotNull
-		private String password;
+		private String content;
 	}
+	
 	
 	@Getter
     @Setter
@@ -34,12 +34,13 @@ public class Login {
     @NoArgsConstructor
     @Builder
     public static class Response {
-        private String token;
-        
-        public static Response fromEntity(@NotNull String token){
+		private Long uid;
+
+        public static Response fromEntity(@NotNull Post post){
             return Response.builder()
-                    .token(token)
+                    .uid(post.getUid())
                     .build();
         }
     }
+
 }

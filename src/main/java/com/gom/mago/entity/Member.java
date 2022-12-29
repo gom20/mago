@@ -8,6 +8,8 @@ import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -34,6 +36,9 @@ import lombok.Setter;
 public class Member implements UserDetails {
  
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long uid;
+    
     @Column(updatable = false, unique = true, nullable = false)
     private String email;
     

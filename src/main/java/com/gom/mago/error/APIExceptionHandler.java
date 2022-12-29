@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.gom.mago.dto.ErrorResponse;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestControllerAdvice
 public class APIExceptionHandler {
 
@@ -22,6 +25,7 @@ public class APIExceptionHandler {
             MethodArgumentNotValidException.class // @Validation Annotation 에서 걸러진 Exception
     })
     public ResponseEntity<ErrorResponse> handleBadRequest(Exception e, HttpServletRequest request){
+    	e.printStackTrace();
     	ErrorResponse errorResponse = ErrorResponse.builder()
                 .code(SPRING_INTERNAL_ERROR.getCode())
                 .message(SPRING_INTERNAL_ERROR.getMessage())
@@ -31,6 +35,7 @@ public class APIExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request){
+    	e.printStackTrace();
     	ErrorResponse errorResponse = ErrorResponse.builder()
                 .code(INTERNAL_ERROR.getCode())
                 .message(INTERNAL_ERROR.getMessage())
