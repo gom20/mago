@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gom.mago.dto.APIResponse;
-import com.gom.mago.dto.auth.CreateMember;
-import com.gom.mago.dto.auth.Login;
-import com.gom.mago.dto.auth.SendPassword;
+import com.gom.mago.dto.auth.CreateMemberDTO;
+import com.gom.mago.dto.auth.LoginDTO;
+import com.gom.mago.dto.auth.SendPasswordDTO;
 import com.gom.mago.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,13 +25,13 @@ public class AuthController {
 	private final AuthService authService;
 
     @PostMapping("/signup")
-    public APIResponse<CreateMember.Response> signup(@Valid @RequestBody final CreateMember.Request request){
+    public APIResponse<CreateMemberDTO.Response> signup(@Valid @RequestBody final CreateMemberDTO.Request request){
     	log.info("signup");
         return APIResponse.of(authService.signup(request));
     }
     
 	@PostMapping("/login")
-	public APIResponse<Login.Response> login(@RequestBody final Login.Request request) {
+	public APIResponse<LoginDTO.Response> login(@RequestBody final LoginDTO.Request request) {
 		log.info("login");
         log.info("email = {}", request.getEmail());
         return APIResponse.of(authService.login(request));
@@ -44,7 +44,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/sendPassword")
-	public APIResponse<SendPassword.Response> sendPassword(@Valid @RequestBody final SendPassword.Request request) {
+	public APIResponse<SendPasswordDTO.Response> sendPassword(@Valid @RequestBody final SendPasswordDTO.Request request) {
 		log.info("sendPassword");
 		return APIResponse.of(authService.resetAndSendPassword(request));
 	}

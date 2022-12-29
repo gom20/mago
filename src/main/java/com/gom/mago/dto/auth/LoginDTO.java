@@ -1,8 +1,9 @@
-package com.gom.mago.dto.feed;
+package com.gom.mago.dto.auth;
 
 import javax.validation.constraints.NotNull;
 
-import com.gom.mago.entity.Feed;
+import com.gom.mago.dto.auth.CreateMemberDTO.Response;
+import com.gom.mago.entity.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-public class CreateFeed {
+public class LoginDTO {
 	
 	@Getter
     @Setter
@@ -21,12 +22,11 @@ public class CreateFeed {
     @ToString
 	public static class Request {
         @NotNull
-		private String name;
+		private String email;
         
         @NotNull
-		private String feed;
+		private String password;
 	}
-	
 	
 	@Getter
     @Setter
@@ -34,13 +34,15 @@ public class CreateFeed {
     @NoArgsConstructor
     @Builder
     public static class Response {
-        private String name;
-
-        public static Response fromEntity(@NotNull Feed feed){
+        private String token;
+        
+        private MemberDTO user;
+        
+        public static Response fromEntity(@NotNull String token, @NotNull MemberDTO memberDTO){
             return Response.builder()
-                    .name(feed.getName())
+                    .token(token)
+                    .user(memberDTO)
                     .build();
         }
     }
-
 }

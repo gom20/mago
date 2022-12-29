@@ -1,4 +1,4 @@
-package com.gom.mago.dto.feed;
+package com.gom.mago.dto.post;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,15 +15,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class FeedDTO {
+public class PostDTO {
 	
-	private Long id;
+	@NotNull
+	private Long uid;
 	
-    @NotNull
-	private String name;
+	@NotNull
+	private String email;
     
     @NotNull
-	private String feed;
+	private String content;
     
     
 }
