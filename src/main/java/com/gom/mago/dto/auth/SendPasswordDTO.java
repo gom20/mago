@@ -2,8 +2,6 @@ package com.gom.mago.dto.auth;
 
 import javax.validation.constraints.NotNull;
 
-import com.gom.mago.dto.auth.LoginDTO.Response;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

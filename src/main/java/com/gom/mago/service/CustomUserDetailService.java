@@ -1,5 +1,7 @@
 package com.gom.mago.service;
 
+import java.util.Collections;
+
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,12 +17,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailService  implements UserDetailsService {
-    private final AuthRepository memberRepository;
+    private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return memberRepository.findByEmail(username)
+        return authRepository.findByEmail(username)
                 .map(this::createUserDetails)
                 .orElseThrow(() -> new UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다."));
     }
@@ -29,6 +31,7 @@ public class CustomUserDetailService  implements UserDetailsService {
         return User.builder()
                 .username(member.getUsername())
                 .password(passwordEncoder.encode(member.getPassword()))
+                .authorities(Collections.emptyList())
                 .build();
     }
 }
