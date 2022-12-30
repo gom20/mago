@@ -29,13 +29,8 @@ public class PostService {
 	}
 	
 	@Transactional
-	public PostDTO getPost(String id) {
-		return modelMapper.map(postRepository.findByUid(id), PostDTO.class);
-	}
-	
-	@Transactional
-	public List<PostDTO> getPosts() {
-		List<Post> posts = postRepository.findAll();
+	public List<PostDTO> getPosts(String email) {
+		List<Post> posts = postRepository.findByEmail(email);
 		List<PostDTO> collect = posts.stream()
 	            .map(p -> new PostDTO(p.getUid(), p.getEmail(), p.getContent()))
 	            .collect(Collectors.toList());

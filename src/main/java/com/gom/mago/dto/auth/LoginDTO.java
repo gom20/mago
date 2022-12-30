@@ -34,13 +34,15 @@ public class LoginDTO {
     @NoArgsConstructor
     @Builder
     public static class Response {
-        private String token;
+        private String accessToken;
+        private String refreshToken;
         
         private MemberDTO user;
         
-        public static Response fromEntity(@NotNull String token, @NotNull MemberDTO memberDTO){
+        public static Response fromEntity(@NotNull TokenDTO token, @NotNull MemberDTO memberDTO){
             return Response.builder()
-                    .token(token)
+                    .accessToken(token.getAccessToken())
+                    .refreshToken(token.getRefreshToken())
                     .user(memberDTO)
                     .build();
         }

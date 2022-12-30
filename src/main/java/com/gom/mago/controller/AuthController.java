@@ -11,6 +11,7 @@ import com.gom.mago.dto.APIResponse;
 import com.gom.mago.dto.auth.CreateMemberDTO;
 import com.gom.mago.dto.auth.LoginDTO;
 import com.gom.mago.dto.auth.SendPasswordDTO;
+import com.gom.mago.dto.auth.TokenDTO;
 import com.gom.mago.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,16 +37,23 @@ public class AuthController {
         log.info("email = {}", request.getEmail());
         return APIResponse.of(authService.login(request));
 	}
-
-	@PostMapping("/logout")
-	public String logout() {
-		log.info("logout");
-		return "logout";
-	}
 	
 	@PostMapping("/sendPassword")
 	public APIResponse<SendPasswordDTO.Response> sendPassword(@Valid @RequestBody final SendPasswordDTO.Request request) {
 		log.info("sendPassword");
 		return APIResponse.of(authService.resetAndSendPassword(request));
+	}
+	
+	@PostMapping("/refresh")
+	public APIResponse<TokenDTO> refreshToken(@Valid @RequestBody final TokenDTO request) {
+		log.info("refresh");
+		return APIResponse.of(authService.refreshToken(request));
+	}
+	
+	@PostMapping("/logout")
+	public APIResponse logout(@RequestBody final TokenDTO request) {
+		log.info("logout");
+		authService.logout(request);
+        return new APIResponse();
 	}
 }
