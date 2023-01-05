@@ -22,7 +22,8 @@ public enum ErrorCode {
     RESET_PW_FAIL_ERROR(202, "auth.passwordResetFailError", HttpStatus.BAD_REQUEST),
     
     REFRESH_TOKEN_EXPIRE(203, "auth.refreshTokenExpire", HttpStatus.BAD_REQUEST),
-    REFRESH_TOKEN_NOT_VALID(204, "auth.refreshTokenNotValid", HttpStatus.BAD_REQUEST);
+    REFRESH_TOKEN_NOT_VALID(204, "auth.refreshTokenNotValid", HttpStatus.BAD_REQUEST),
+	ACCESS_CODE_NOT_VALID(205, "auth.refreshTokenNotValid", HttpStatus.UNAUTHORIZED);
 	
 	
 	private final int code;

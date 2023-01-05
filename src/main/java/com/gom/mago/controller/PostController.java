@@ -31,7 +31,7 @@ public class PostController {
     @PostMapping("")
     public APIResponse<CreatePostDTO.Response> createPost(@Valid @RequestBody final CreatePostDTO.Request request){
     	log.info("createPost");
-        return APIResponse.of(postService.createFeed(request));
+        return APIResponse.of(postService.createPost(request));
     }
 
     @GetMapping("")

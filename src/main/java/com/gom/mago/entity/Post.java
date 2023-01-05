@@ -1,5 +1,6 @@
 package com.gom.mago.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -34,14 +35,36 @@ public class Post {
     
     @Column(updatable = false)
     private String email;
-
-	@Column(nullable = false)
-	private String content;
-	
+    
+    @Column(nullable = false)
+    private String mountain;
+    
+    private String yymmdd;
+    
+    @Column(nullable = false)
+    private LocalDateTime startDatetime;
+    
+    @Column(nullable = false)
+    private LocalDateTime endDatetime;
+    
+    @Column(nullable = false)
+    private Float distance;
+    
+    @Column(nullable = false)
+    private Float minAltitude;
+    
+    @Column(nullable = false)
+    private Float maxAltitude;
+    
+    @Column(nullable = false)
+    private String imgPath;
+    
     @CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+    
+    
  
 }

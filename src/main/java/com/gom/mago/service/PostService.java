@@ -23,17 +23,15 @@ public class PostService {
 	private final ModelMapper modelMapper;	
 
 	@Transactional
-	public CreatePostDTO.Response createFeed(CreatePostDTO.Request request) {
-    	Post post = modelMapper.map(request, Post.class);
+	public CreatePostDTO.Response createPost(CreatePostDTO.Request request) {
+    	Post post = request.toEntity();
         return modelMapper.map(postRepository.save(post), CreatePostDTO.Response.class);
 	}
 	
 	@Transactional
 	public List<PostDTO> getPosts(String email) {
 		List<Post> posts = postRepository.findByEmail(email);
-		List<PostDTO> collect = posts.stream()
-	            .map(p -> new PostDTO(p.getUid(), p.getEmail(), p.getContent()))
-	            .collect(Collectors.toList());
+		List<PostDTO> collect = posts.stream().map(p -> PostDTO.fromEntity(p)).collect(Collectors.toList());
 		return collect;
 	}
 
