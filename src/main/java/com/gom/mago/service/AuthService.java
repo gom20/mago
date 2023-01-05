@@ -102,7 +102,7 @@ public class AuthService {
 	public void logout(TokenDTO request) {
 		// 엑세스 토큰이 만료되었다면 에러 발생
 		if (!jwtTokenProvider.validateToken(request.getAccessToken())) {
-			throw new APIException(ErrorCode.BAD_REQUEST);
+			throw new APIException(ErrorCode.ACCESS_CODE_NOT_VALID);
 		}
 
 		String userPk = jwtTokenProvider.getUserPk(request.getAccessToken());
