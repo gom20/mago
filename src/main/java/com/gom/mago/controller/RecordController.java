@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gom.mago.dto.APIResponse;
-import com.gom.mago.dto.post.CreatePostDTO;
-import com.gom.mago.dto.post.PostDTO;
-import com.gom.mago.service.PostService;
+import com.gom.mago.dto.post.CreateRecordDTO;
+import com.gom.mago.dto.post.RecordDTO;
+import com.gom.mago.service.RecordService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,20 +23,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/posts")
-public class PostController {
-
-	private final PostService postService;
+@RequestMapping("api/records")
+public class RecordController {
+	
+	private final RecordService recordService;
 
     @PostMapping("")
-    public APIResponse<CreatePostDTO.Response> createPost(@Valid @RequestBody final CreatePostDTO.Request request){
-    	log.info("createPost");
-        return APIResponse.of(postService.createPost(request));
+    public APIResponse<CreateRecordDTO.Response> createRecord(@Valid @RequestBody final CreateRecordDTO.Request request){
+    	log.info("createRecord");
+        return APIResponse.of(recordService.createRecord(request));
     }
 
     @GetMapping("")
-    public APIResponse<List<PostDTO>> getPosts(@AuthenticationPrincipal User user) {
-    	log.info("getPosts");
-        return APIResponse.of(postService.getPosts(user.getUsername()));
+    public APIResponse<List<RecordDTO>> getRecords(@AuthenticationPrincipal User user) {
+    	log.info("getRecords");
+        return APIResponse.of(recordService.getPosts(user.getUsername()));
     }
 }

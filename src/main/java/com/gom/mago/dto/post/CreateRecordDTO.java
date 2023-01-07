@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.gom.mago.entity.Post;
+import com.gom.mago.entity.Record;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-public class CreatePostDTO {
+public class CreateRecordDTO {
 	
 	@Getter
     @Setter
@@ -51,8 +51,8 @@ public class CreatePostDTO {
         @NotNull
         private String imgPath; 
         
-        public Post toEntity() {
-            return Post.builder()
+        public Record toEntity() {
+            return Record.builder()
                      .email(email)
                      .yymmdd(startDatetime.format(DateTimeFormatter.ofPattern("yyyyMMdd")))
                      .startDatetime(startDatetime)
@@ -93,7 +93,7 @@ public class CreatePostDTO {
         
         private String imgPath; 
 
-        public static Response fromEntity(@NotNull Post post){
+        public static Response fromEntity(@NotNull Record post){
             return Response.builder()
                     .uid(post.getUid())
                     .email(post.getEmail())

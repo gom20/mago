@@ -27,7 +27,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Post {
+public class Record {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
