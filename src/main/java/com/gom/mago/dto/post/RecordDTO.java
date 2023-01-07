@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
-import com.gom.mago.dto.post.CreatePostDTO.Response;
-import com.gom.mago.entity.Post;
+import com.gom.mago.dto.post.CreateRecordDTO.Response;
+import com.gom.mago.entity.Record;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +20,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class PostDTO {
+public class RecordDTO {
 	
 	private Long uid;
 	
@@ -42,8 +42,8 @@ public class PostDTO {
     
     private String imgPath; 
     
-    public static PostDTO fromEntity(@NotNull Post post){
-        return PostDTO.builder()
+    public static RecordDTO fromEntity(@NotNull Record post){
+        return RecordDTO.builder()
                 .uid(post.getUid())
                 .email(post.getEmail())
                 .yymmdd(post.getYymmdd())
