@@ -8,8 +8,8 @@ import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.gom.mago.dto.post.CreateRecordDTO;
-import com.gom.mago.dto.post.RecordDTO;
+import com.gom.mago.dto.record.CreateRecordDTO;
+import com.gom.mago.dto.record.RecordDTO;
 import com.gom.mago.entity.Record;
 import com.gom.mago.repository.RecordRepository;
 

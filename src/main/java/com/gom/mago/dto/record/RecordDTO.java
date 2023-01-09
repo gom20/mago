@@ -1,10 +1,10 @@
-package com.gom.mago.dto.post;
+package com.gom.mago.dto.record;
 
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
-import com.gom.mago.dto.post.CreateRecordDTO.Response;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gom.mago.entity.Record;
 
 import lombok.AllArgsConstructor;
@@ -30,8 +30,10 @@ public class RecordDTO {
     
 	private String mountain;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime startDatetime;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime endDatetime;
     
     private Float distance;
