@@ -1,4 +1,4 @@
-package com.gom.mago.dto.post;
+package com.gom.mago.dto.record;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -48,7 +48,6 @@ public class CreateRecordDTO {
         @NotNull
         private Float maxAltitude;
         
-        @NotNull
         private String imgPath; 
         
         public Record toEntity() {

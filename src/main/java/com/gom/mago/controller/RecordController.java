@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gom.mago.dto.APIResponse;
-import com.gom.mago.dto.post.CreateRecordDTO;
-import com.gom.mago.dto.post.RecordDTO;
+import com.gom.mago.dto.record.CreateRecordDTO;
+import com.gom.mago.dto.record.RecordDTO;
 import com.gom.mago.service.RecordService;
 
 import lombok.RequiredArgsConstructor;
