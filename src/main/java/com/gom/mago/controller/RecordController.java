@@ -4,6 +4,10 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +39,17 @@ public class RecordController {
     }
 
     @GetMapping("")
-    public APIResponse<List<RecordDTO>> getRecords(@AuthenticationPrincipal User user) {
-    	log.info("getRecords");
-        return APIResponse.of(recordService.getPosts(user.getUsername()));
+    public APIResponse<List<RecordDTO>> getAllRecords(@AuthenticationPrincipal User user) {
+    	log.info("getAllRecords");
+        return APIResponse.of(recordService.getAllRecords(user.getUsername()));
     }
+    
+    
+    @GetMapping("test")
+    public APIResponse<Page<RecordDTO>> getRecords(@PageableDefault(size=10, sort="yymmdd", direction= Sort.Direction.DESC) Pageable pageable, 
+    		@AuthenticationPrincipal User user) {
+    	log.info("getRecords");
+        return APIResponse.of(recordService.getRecords(pageable, user.getUsername()));
+    }
+    
 }

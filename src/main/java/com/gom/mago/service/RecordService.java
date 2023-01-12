@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gom.mago.dto.record.CreateRecordDTO;
@@ -29,10 +31,16 @@ public class RecordService {
 	}
 	
 	@Transactional
-	public List<RecordDTO> getPosts(String email) {
+	public List<RecordDTO> getAllRecords(String email) {
 		List<Record> records = recordRepository.findByEmail(email);
-		List<RecordDTO> collect = records.stream().map(p -> RecordDTO.fromEntity(p)).collect(Collectors.toList());
+		List<RecordDTO> collect = records.stream().map(record -> RecordDTO.fromEntity(record)).collect(Collectors.toList());
 		return collect;
+	}
+	
+	@Transactional
+	public Page<RecordDTO> getRecords(Pageable pageable, String email) {
+		Page<Record> pages = recordRepository.findByEmail(email, pageable);
+		return pages.map(record -> RecordDTO.fromEntity(record));
 	}
 	
 }
