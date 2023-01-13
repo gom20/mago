@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gom.mago.dto.APIResponse;
 import com.gom.mago.dto.record.CreateRecordDTO;
+import com.gom.mago.dto.record.DeleteRecordDTO;
 import com.gom.mago.dto.record.RecordDTO;
 import com.gom.mago.service.RecordService;
 
@@ -38,18 +40,26 @@ public class RecordController {
         return APIResponse.of(recordService.createRecord(request));
     }
 
-    @GetMapping("")
+    @GetMapping("all")
     public APIResponse<List<RecordDTO>> getAllRecords(@AuthenticationPrincipal User user) {
     	log.info("getAllRecords");
         return APIResponse.of(recordService.getAllRecords(user.getUsername()));
     }
     
     
-    @GetMapping("test")
-    public APIResponse<Page<RecordDTO>> getRecords(@PageableDefault(size=10, sort="yymmdd", direction= Sort.Direction.DESC) Pageable pageable, 
+    @GetMapping("")
+    public APIResponse<Page<RecordDTO>> getRecords(@PageableDefault(size=10, sort="startDatetime", direction= Sort.Direction.DESC) Pageable pageable, 
     		@AuthenticationPrincipal User user) {
     	log.info("getRecords");
+    	log.info("pageNumber: " +  pageable.getPageNumber());
         return APIResponse.of(recordService.getRecords(pageable, user.getUsername()));
     }
     
+    
+    
+    @DeleteMapping("")
+    public APIResponse<DeleteRecordDTO> deleteRecords(@Valid @RequestBody final DeleteRecordDTO request, @AuthenticationPrincipal User user) {
+    	log.info("deleteRecords");
+    	return APIResponse.of(recordService.deleteAllById(request, user.getUsername()));
+    }
 }

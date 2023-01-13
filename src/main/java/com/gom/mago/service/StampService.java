@@ -41,4 +41,9 @@ public class StampService {
         return modelMapper.map(stampRepository.save(stamp), UpdateStampDTO.Response.class);
 	}
 	
+	
+	@Transactional
+	public void deleteStampsByEmail(String email) {
+		stampRepository.deleteByEmail(email);
+	}
 }

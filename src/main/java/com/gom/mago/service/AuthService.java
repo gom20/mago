@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gom.mago.constant.ErrorCode;
+import com.gom.mago.dto.auth.ChangePasswordDTO;
 import com.gom.mago.dto.auth.CreateMemberDTO;
 import com.gom.mago.dto.auth.LoginDTO;
 import com.gom.mago.dto.auth.MemberDTO;
@@ -38,6 +39,9 @@ public class AuthService {
 	private final ModelMapper modelMapper;
 	private final JavaMailSender mailSender;
 	private final RedisTemplate<String, Object> redisTemplate;
+	
+	private final RecordService recordService;
+	private final StampService stampService;
 
 	@Transactional
 	public CreateMemberDTO.Response signup(CreateMemberDTO.Request request) {
@@ -146,6 +150,28 @@ public class AuthService {
 
 		// 유효한 Access Token, Refresh Token 발급
 		return TokenDTO.builder().accessToken(accessToken).refreshToken(refreshToken).build();
+	}
+	
+	@Transactional
+	public ChangePasswordDTO.Response updatePassword(ChangePasswordDTO.Request request, String email){
+		Member member = authRepository.findByEmail(email).get();
+		if(passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+			if(request.getNewPassword().equals(request.getNewPasswordConfirm())) {
+				member.setPassword(passwordEncoder.encode(request.getNewPassword()));
+				authRepository.save(member);
+			}
+		} else {
+			throw new APIException(ErrorCode.BAD_REQUEST);
+		}
+		return ChangePasswordDTO.Response.fromEntity(email);
+	}
+	
+	@Transactional
+	public void withdraw(String email) {
+		Member member = authRepository.findByEmail(email).get();
+		stampService.deleteStampsByEmail(email);
+		recordService.deleteRecordsByEmail(email);
+		authRepository.deleteById(member.getUid());
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.gom.mago.dto.record.CreateRecordDTO;
+import com.gom.mago.dto.record.DeleteRecordDTO;
 import com.gom.mago.dto.record.RecordDTO;
 import com.gom.mago.entity.Record;
 import com.gom.mago.repository.RecordRepository;
@@ -41,6 +42,18 @@ public class RecordService {
 	public Page<RecordDTO> getRecords(Pageable pageable, String email) {
 		Page<Record> pages = recordRepository.findByEmail(email, pageable);
 		return pages.map(record -> RecordDTO.fromEntity(record));
+	}
+	
+	@Transactional
+	public void deleteRecordsByEmail(String email) {
+		recordRepository.deleteByEmail(email);
+	}
+	
+	@Transactional
+	public DeleteRecordDTO deleteAllById(DeleteRecordDTO request, String email) {
+		recordRepository.deleteAll(recordRepository.findAllById(request.getIds()).stream()
+				.filter(record -> email.equals(record.getEmail())).collect(Collectors.toList()));
+		return request;
 	}
 	
 }

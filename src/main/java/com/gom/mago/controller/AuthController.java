@@ -2,12 +2,15 @@ package com.gom.mago.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gom.mago.dto.APIResponse;
+import com.gom.mago.dto.auth.ChangePasswordDTO;
 import com.gom.mago.dto.auth.CreateMemberDTO;
 import com.gom.mago.dto.auth.LoginDTO;
 import com.gom.mago.dto.auth.SendPasswordDTO;
@@ -37,13 +40,7 @@ public class AuthController {
         log.info("email = {}", request.getEmail());
         return APIResponse.of(authService.login(request));
 	}
-	
-	@PostMapping("/sendPassword")
-	public APIResponse<SendPasswordDTO.Response> sendPassword(@Valid @RequestBody final SendPasswordDTO.Request request) {
-		log.info("sendPassword");
-		return APIResponse.of(authService.resetAndSendPassword(request));
-	}
-	
+
 	@PostMapping("/refresh")
 	public APIResponse<TokenDTO> refreshToken(@Valid @RequestBody final TokenDTO request) {
 		log.info("refresh");
@@ -55,5 +52,25 @@ public class AuthController {
 		log.info("logout");
 		authService.logout(request);
         return new APIResponse();
+	}
+	
+	
+	@PostMapping("/withdraw")
+	public APIResponse withdraw(@AuthenticationPrincipal User user) {
+		log.info("withdraw");
+		authService.withdraw(user.getUsername());
+        return new APIResponse();
+	}
+	
+	@PostMapping("/sendPassword")
+	public APIResponse<SendPasswordDTO.Response> sendPassword(@Valid @RequestBody final SendPasswordDTO.Request request) {
+		log.info("sendPassword");
+		return APIResponse.of(authService.resetAndSendPassword(request));
+	}
+	
+	@PostMapping("/changePassword")
+	public APIResponse<ChangePasswordDTO.Response> changePassword(@Valid @RequestBody final ChangePasswordDTO.Request request, @AuthenticationPrincipal User user) {
+		log.info("updatePassword");
+		return APIResponse.of(authService.updatePassword(request, user.getUsername()));
 	}
 }

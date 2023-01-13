@@ -25,5 +25,7 @@ public interface StampRepository extends JpaRepository<Stamp, Long> {
 					"LEFT JOIN STAMP S " + 
 					"ON M.UID = S.MOUNTAIN_ID AND S.EMAIL=:email")
 	List<MountainStamp> findMountainStampsByEmail(@Param("email") String email);
+	
+	void deleteByEmail(String email);
 
 }
