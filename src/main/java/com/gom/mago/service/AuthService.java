@@ -1,5 +1,7 @@
 package com.gom.mago.service;
 
+import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.transaction.Transactional;
@@ -47,11 +49,15 @@ public class AuthService {
 	public CreateMemberDTO.Response signup(CreateMemberDTO.Request request) {
 		Member member = modelMapper.map(request, Member.class);
 		member.setPassword(passwordEncoder.encode(request.getPassword()));
+		if(redisTemplate.hasKey("AUTH_EMAIL:" + request.getEmail()) == null) {
+			throw new APIException(ErrorCode.BAD_REQUEST);
+		}
 
 		// 가입 여부 확인
 		if (authRepository.findByEmail(request.getEmail()).isPresent()) {
 			throw new APIException(ErrorCode.DUPLICATE_USER_ERROR);
 		}
+
 
 		return CreateMemberDTO.Response.fromEntity(authRepository.save(member));
 	}
@@ -173,5 +179,48 @@ public class AuthService {
 		recordService.deleteRecordsByEmail(email);
 		authRepository.deleteById(member.getUid());
 	}
+	
+	@Transactional
+	public void sendConfirmEmail(String email) {
 
+		// 가입 여부 확인
+		if (authRepository.findByEmail(email).isPresent()) {
+			throw new APIException(ErrorCode.DUPLICATE_USER_ERROR);
+		}
+		
+		Random random = new Random();
+		UUID uuid = UUID.randomUUID();
+		redisTemplate.opsForValue().set(uuid.toString(), email , 5 * 60 * 1000L, TimeUnit.MILLISECONDS);
+		
+		// 임시 비밀번호 이메일 발송
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(email);
+		message.setSubject("마운틴고 회원가입 인증");
+		message.setText("http://localhost:8080/api/auth/confirmEmail?key="+uuid.toString() );
+		message.setFrom(sender);
+		message.setReplyTo(sender);
+		mailSender.send(message);
+	}
+	
+   public void confirmEmail(String key) {
+	   String email = (String) redisTemplate.opsForValue().get(key);
+		if (email != null) {
+			redisTemplate.delete(key);
+			if (redisTemplate.hasKey("AUTH_EMAIL:" + email)) {
+				redisTemplate.delete(email);
+			}
+			
+			redisTemplate.opsForValue().set("AUTH_EMAIL:" + email, "Authenticated" , 180 * 60 * 1000L, TimeUnit.MILLISECONDS);
+		} else {
+			throw new APIException(ErrorCode.BAD_REQUEST);
+		}
+    }
+   
+   public Boolean isEmailAuthenticated(String email) {
+		if (redisTemplate.hasKey("AUTH_EMAIL:" + email)) {
+			return true;
+		} else {
+			return false;
+		}
+    }
 }

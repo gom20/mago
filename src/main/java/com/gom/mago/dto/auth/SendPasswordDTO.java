@@ -33,6 +33,7 @@ public class SendPasswordDTO {
     @Builder
     public static class Response {
         private String email;
+        
         private String name;
         
         public static Response fromEntity(@NotNull String email, String name){

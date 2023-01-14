@@ -37,6 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/api/auth/signup").permitAll()
 			.antMatchers("/api/auth/sendPassword").permitAll()
 			.antMatchers("/api/auth/refresh").permitAll()
+			.antMatchers("/api/auth/sendConfirmEmail").permitAll()
+			.antMatchers("/api/auth/confirmEmail").permitAll()
+			.antMatchers("/api/auth/isEmailAthenticated").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.addFilterBefore(jwtAuthenticationFilter,

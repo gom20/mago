@@ -4,13 +4,16 @@ import javax.validation.Valid;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gom.mago.dto.APIResponse;
 import com.gom.mago.dto.auth.ChangePasswordDTO;
+import com.gom.mago.dto.auth.ConfirmEmailDTO;
 import com.gom.mago.dto.auth.CreateMemberDTO;
 import com.gom.mago.dto.auth.LoginDTO;
 import com.gom.mago.dto.auth.SendPasswordDTO;
@@ -54,7 +57,6 @@ public class AuthController {
         return new APIResponse();
 	}
 	
-	
 	@PostMapping("/withdraw")
 	public APIResponse withdraw(@AuthenticationPrincipal User user) {
 		log.info("withdraw");
@@ -72,5 +74,26 @@ public class AuthController {
 	public APIResponse<ChangePasswordDTO.Response> changePassword(@Valid @RequestBody final ChangePasswordDTO.Request request, @AuthenticationPrincipal User user) {
 		log.info("updatePassword");
 		return APIResponse.of(authService.updatePassword(request, user.getUsername()));
+	}
+	
+	@PostMapping("/sendConfirmEmail")
+	public APIResponse sendConfirmEmail(@Valid @RequestBody final ConfirmEmailDTO request) {
+		log.info("sendConfirmEmail");
+		authService.sendConfirmEmail(request.getEmail());
+		return new APIResponse();
+	}
+	
+	@GetMapping("/confirmEmail")
+	public APIResponse<Boolean> confirmEmail(@Valid @RequestParam String key) {
+		log.info("confirmEmail");
+		authService.confirmEmail(key);
+		return new APIResponse();
+	}
+
+	
+	@GetMapping("/isEmailAthenticated")
+	public APIResponse<Boolean> getAuthEmail(@Valid @RequestParam String email) {
+		log.info("isEmailAthenticated");
+		return APIResponse.of(authService.isEmailAuthenticated(email));
 	}
 }
