@@ -1,6 +1,4 @@
-package com.gom.mago.dto.auth;
-
-import javax.validation.constraints.NotNull;
+package com.gom.mago.dto.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,9 +13,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @Builder
 @ToString
-public class ConfirmEmailDTO {
-	
-    @NotNull
-	private String email;
+public class MemberDTO {
 
+	private String email;
+	
+	private String name;
 }

@@ -10,14 +10,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gom.mago.entity.Member;
-import com.gom.mago.repository.AuthRepository;
+import com.gom.mago.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailService  implements UserDetailsService {
-    private final AuthRepository authRepository;
+    private final MemberRepository authRepository;
     private final PasswordEncoder passwordEncoder;
     
     @Override

@@ -1,7 +1,5 @@
 package com.gom.mago.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -34,32 +32,42 @@ public class RecordController {
 	
 	private final RecordService recordService;
 
-    @PostMapping("")
-    public APIResponse<CreateRecordDTO.Response> createRecord(@Valid @RequestBody final CreateRecordDTO.Request request){
+	/**
+	 * 레코드 등록 API
+	 * @param request 레코드 정보
+	 * @param user 로그인 유저
+	 * @return 생성된 레코드 정보
+	 */
+	@PostMapping
+    public APIResponse<CreateRecordDTO.Response> createRecord(@Valid @RequestBody final CreateRecordDTO.Request request, @AuthenticationPrincipal User user){
     	log.info("createRecord");
+    	request.setEmail(user.getUsername());
         return APIResponse.of(recordService.createRecord(request));
     }
-
-    @GetMapping("all")
-    public APIResponse<List<RecordDTO>> getAllRecords(@AuthenticationPrincipal User user) {
-    	log.info("getAllRecords");
-        return APIResponse.of(recordService.getAllRecords(user.getUsername()));
-    }
     
-    
-    @GetMapping("")
+	/**
+	 * 레코드 조회 API
+	 * @param pageable 페이지 요청 정보
+	 * @param user 로그인 유저
+	 * @return
+	 */
+    @GetMapping
     public APIResponse<Page<RecordDTO>> getRecords(@PageableDefault(size=10, sort="startDatetime", direction= Sort.Direction.DESC) Pageable pageable, 
     		@AuthenticationPrincipal User user) {
     	log.info("getRecords");
-    	log.info("pageNumber: " +  pageable.getPageNumber());
+    	log.info("pageNumber={}", pageable.getPageNumber());
         return APIResponse.of(recordService.getRecords(pageable, user.getUsername()));
     }
     
-    
-    
-    @DeleteMapping("")
+    /**
+     * 레코드 삭제 API
+     * @param request 삭제할 레코드 ID 리스트
+     * @param user 로그인 유저
+     * @return
+     */
+    @DeleteMapping
     public APIResponse<DeleteRecordDTO> deleteRecords(@Valid @RequestBody final DeleteRecordDTO request, @AuthenticationPrincipal User user) {
     	log.info("deleteRecords");
-    	return APIResponse.of(recordService.deleteAllById(request, user.getUsername()));
+    	return APIResponse.of(recordService.deleteByIds(request, user.getUsername()));
     }
 }

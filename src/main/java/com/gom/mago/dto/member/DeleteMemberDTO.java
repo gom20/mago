@@ -1,8 +1,8 @@
-package com.gom.mago.dto.auth;
+package com.gom.mago.dto.member;
 
 import javax.validation.constraints.NotNull;
 
-import com.gom.mago.dto.auth.SendPasswordDTO.Response;
+import com.gom.mago.entity.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,25 +11,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-public class ChangePasswordDTO {
+public class DeleteMemberDTO {
+	
 	@Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
     @ToString
-	public static class Request {
-		
+	public static class Request {	       
         @NotNull
 		private String password;
-        
-        @NotNull
-        private String newPassword;
-        
-        @NotNull
-        private String newPasswordConfirm;
-  
 	}
+	
 	
 	@Getter
     @Setter
@@ -38,10 +32,12 @@ public class ChangePasswordDTO {
     @Builder
     public static class Response {
         private String email;
-        public static Response fromEntity(@NotNull String email){
+
+        public static Response fromEntity(@NotNull Member member){
             return Response.builder()
-                    .email(email)
+                    .email(member.getEmail())
                     .build();
         }
     }
+
 }

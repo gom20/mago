@@ -1,6 +1,9 @@
 package com.gom.mago.dto.record;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +20,7 @@ import lombok.ToString;
 @ToString
 public class DeleteRecordDTO {
 
-//	@NotNull
-	private ArrayList<Long> ids;
+	@NotNull
+	@Size(min=1)
+	private List<Long> ids;
 }

@@ -26,18 +26,23 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("api/stamps")
 public class StampController {
 
-	private final StampService mountainService;
+	private final StampService stampService;
 
-	@GetMapping("")
-	public APIResponse<List<StampDTO>> getMountainStamps(@AuthenticationPrincipal User user) {
-		log.info("getMountainStamps");
-		return APIResponse.of(mountainService.getMountainStamps(user.getUsername()));
+	/**
+	 * 스탬프 조회 API
+	 * @param user 로그인 유저
+	 * @return
+	 */
+	@GetMapping
+	public APIResponse<List<StampDTO>> getStamps(@AuthenticationPrincipal User user) {
+		log.info("getStamps");
+		return APIResponse.of(stampService.getStamps(user.getUsername()));
 	}
 	
-    @PutMapping("")
-    public APIResponse<UpdateStampDTO.Response> updateMountainStamp(@Valid @RequestBody final UpdateStampDTO.Request request, @AuthenticationPrincipal User user){
-    	log.info("updateMountainStamp");
+    @PutMapping
+    public APIResponse<UpdateStampDTO.Response> updateStamps(@Valid @RequestBody final UpdateStampDTO.Request request, @AuthenticationPrincipal User user){
+    	log.info("updateStamps");
     	request.setEmail(user.getUsername());
-        return APIResponse.of(mountainService.updateMountainStamp(request));
+        return APIResponse.of(stampService.updateStamps(request));
     }
 }

@@ -24,15 +24,19 @@ public class StampService {
 	private final StampRepository stampRepository;
 	private final ModelMapper modelMapper;		
 	
+	/**
+	 * 스탬프 조회 서비스
+	 * @param email 로그인 이메일
+	 * @return
+	 */
 	@Transactional
-	public List<StampDTO> getMountainStamps(String email) {
+	public List<StampDTO> getStamps(String email) {
 		List<MountainStamp> mountainStamps = stampRepository.findMountainStampsByEmail(email);
-		return mountainStamps.stream().map(m->StampDTO.fromEntity(m)).collect(Collectors.toList());
+		return mountainStamps.stream().map(m -> StampDTO.fromEntity(m)).collect(Collectors.toList());
 	}
 
-
 	@Transactional
-	public UpdateStampDTO.Response updateMountainStamp(UpdateStampDTO.Request request) {
+	public UpdateStampDTO.Response updateStamps(UpdateStampDTO.Request request) {
 		Stamp stamp = modelMapper.map(request, Stamp.class);
 		Optional<Stamp> selectedStamp = stampRepository.findByEmailAndMountainId(stamp.getEmail(), stamp.getMountainId());
 		if(selectedStamp.isPresent()) {
@@ -40,7 +44,6 @@ public class StampService {
 		}
         return modelMapper.map(stampRepository.save(stamp), UpdateStampDTO.Response.class);
 	}
-	
 	
 	@Transactional
 	public void deleteStampsByEmail(String email) {

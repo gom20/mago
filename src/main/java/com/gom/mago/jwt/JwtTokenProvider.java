@@ -107,9 +107,9 @@ public class JwtTokenProvider {
 	}
 	
 	// 남은 유효시간 조회
-	public Long getRemainedValidTime(String accessToken) {
+	public Long getRemainedValidTime(String token) {
 	     // accessToken 남은 유효시간
-	     Date expiration = getExpiration(accessToken);
+	     Date expiration = getExpiration(token);
 	     // 현재 시간
 	     Long now = new Date().getTime();
 	     return (expiration.getTime() - now);

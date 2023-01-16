@@ -3,6 +3,7 @@ package com.gom.mago.dto.record;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,34 +26,33 @@ public class CreateRecordDTO {
     @Builder
     @ToString
 	public static class Request {
-        @NotNull
+
 		private String email;
-        
-        @NotNull
+		
+        @NotBlank
 		private String mountain;
         
-        @NotNull
+        @NotBlank
         @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
         private LocalDateTime startDatetime;
         
-        @NotNull
+        @NotBlank
         @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
         private LocalDateTime endDatetime;
         
-        @NotNull
+        @NotBlank
         private Float distance;
         
-        @NotNull
+        @NotBlank
         private Float minAltitude;
         
-        @NotNull
+        @NotBlank
         private Float maxAltitude;
         
         private String imgPath; 
         
         public Record toEntity() {
             return Record.builder()
-                     .email(email)
                      .yymmdd(startDatetime.format(DateTimeFormatter.ofPattern("yyyyMMdd")))
                      .startDatetime(startDatetime)
                      .endDatetime(endDatetime)
@@ -88,8 +88,8 @@ public class CreateRecordDTO {
         
         private Float minAltitude;
         
-        private Float maxAltitude;
         
+        private Float maxAltitude;
         private String imgPath; 
 
         public static Response fromEntity(@NotNull Record post){

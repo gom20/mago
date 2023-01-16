@@ -25,35 +25,48 @@ public class RecordService {
 	private final RecordRepository recordRepository;
 	private final ModelMapper modelMapper;	
 
+	/**
+	 * 레코드 등록 서비스
+	 * @param request 레코드 정보
+	 * @return 생성된 레코드 정보
+	 */
 	@Transactional
 	public CreateRecordDTO.Response createRecord(CreateRecordDTO.Request request) {
-    	Record record = request.toEntity();
-        return modelMapper.map(recordRepository.save(record), CreateRecordDTO.Response.class);
+        return modelMapper.map(recordRepository.save(request.toEntity()), CreateRecordDTO.Response.class);
 	}
-	
-	@Transactional
-	public List<RecordDTO> getAllRecords(String email) {
-		List<Record> records = recordRepository.findByEmail(email);
-		List<RecordDTO> collect = records.stream().map(record -> RecordDTO.fromEntity(record)).collect(Collectors.toList());
-		return collect;
-	}
-	
+
+	/**
+	 * 레코드 조회 서비스
+	 * @param pageable 페이지 요청 정보
+	 * @param email 로그인 이메일
+	 * @return 레코드 리스트
+	 */
 	@Transactional
 	public Page<RecordDTO> getRecords(Pageable pageable, String email) {
 		Page<Record> pages = recordRepository.findByEmail(email, pageable);
 		return pages.map(record -> RecordDTO.fromEntity(record));
 	}
 	
+	/**
+	 * 레코드 삭제 서비스 by 레코드ID
+	 * @param request 레코드 ID 리스트
+	 * @param email 로그인 이메일
+	 * @return
+	 */
 	@Transactional
-	public void deleteRecordsByEmail(String email) {
+	public DeleteRecordDTO deleteByIds(DeleteRecordDTO request, String email) {
+		List<Record> recordsToDelete = recordRepository.findAllById(request.getIds()).stream()
+				.filter(record -> email.equals(record.getEmail())).collect(Collectors.toList());
+		recordRepository.deleteAll(recordsToDelete);	
+		return DeleteRecordDTO.builder().ids(recordsToDelete.stream().map(record -> record.getUid()).toList()).build();
+	}
+	
+	/**
+	 * 레코드 삭제 서비스 by 이메일
+	 * @param email 로그인 이메일
+	 */
+	@Transactional
+	public void deleteByEmail(String email) {
 		recordRepository.deleteByEmail(email);
 	}
-	
-	@Transactional
-	public DeleteRecordDTO deleteAllById(DeleteRecordDTO request, String email) {
-		recordRepository.deleteAll(recordRepository.findAllById(request.getIds()).stream()
-				.filter(record -> email.equals(record.getEmail())).collect(Collectors.toList()));
-		return request;
-	}
-	
 }

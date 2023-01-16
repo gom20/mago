@@ -28,4 +28,8 @@ public class RedisUtil {
     public void deleteData(String key) {
         redisTemplate.delete(key);
     }
+    
+    public Boolean hasKey(String key) {
+    	return redisTemplate.hasKey(key);
+    }
 }

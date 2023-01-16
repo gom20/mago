@@ -2,8 +2,6 @@ package com.gom.mago.controller;
 
 import javax.validation.Valid;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,11 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gom.mago.dto.APIResponse;
-import com.gom.mago.dto.auth.ChangePasswordDTO;
-import com.gom.mago.dto.auth.ConfirmEmailDTO;
-import com.gom.mago.dto.auth.CreateMemberDTO;
+import com.gom.mago.dto.auth.SendVerificationEmailDTO;
 import com.gom.mago.dto.auth.LoginDTO;
-import com.gom.mago.dto.auth.SendPasswordDTO;
+import com.gom.mago.dto.auth.LogoutDTO;
 import com.gom.mago.dto.auth.TokenDTO;
 import com.gom.mago.service.AuthService;
 
@@ -30,70 +26,74 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthController {
 
 	private final AuthService authService;
-
-    @PostMapping("/signup")
-    public APIResponse<CreateMemberDTO.Response> signup(@Valid @RequestBody final CreateMemberDTO.Request request){
-    	log.info("signup");
-        return APIResponse.of(authService.signup(request));
-    }
-    
+	
+	/**
+	 * 로그인 API
+	 * @param request 로그인 정보: 이메일, 비밀번호
+	 * @return 사용자 정보, 엑세스 토큰, 리프레쉬 토큰
+	 */
 	@PostMapping("/login")
-	public APIResponse<LoginDTO.Response> login(@RequestBody final LoginDTO.Request request) {
+	public APIResponse<LoginDTO.Response> login(@Valid @RequestBody final LoginDTO.Request request) {
 		log.info("login");
         log.info("email = {}", request.getEmail());
         return APIResponse.of(authService.login(request));
 	}
 
+	/**
+	 * 로그아웃 API
+	 * @param request 로그아웃 토큰 정보: 액세스 토큰
+	 * @return
+	 */
+    @PostMapping("/logout")
+	public APIResponse<Object> logout(@Valid @RequestBody final LogoutDTO request) {
+		log.info("logout");
+		authService.logout(request.getAccessToken());
+        return APIResponse.of(null);
+	}
+    
+    /**
+     * 리프레쉬 토큰 API
+     * @param request 리프레쉬 토큰 정보: 엑세스 토큰, 리프레쉬 토큰
+     * @return
+     */
 	@PostMapping("/refresh")
 	public APIResponse<TokenDTO> refreshToken(@Valid @RequestBody final TokenDTO request) {
 		log.info("refresh");
 		return APIResponse.of(authService.refreshToken(request));
 	}
 	
-	@PostMapping("/logout")
-	public APIResponse logout(@RequestBody final TokenDTO request) {
-		log.info("logout");
-		authService.logout(request);
-        return new APIResponse();
+	/**
+	 * 본인 인증 이메일 전송 API
+	 * @param request 이메일
+	 * @return
+	 */
+	@PostMapping("/sendVerificationEmail")
+	public APIResponse<String> sendVerificationEmail(@Valid @RequestBody final SendVerificationEmailDTO request) {
+		log.info("sendVerificationEmail");
+		authService.sendVerificationEmail(request.getEmail());
+		return APIResponse.of(request.getEmail());
 	}
 	
-	@PostMapping("/withdraw")
-	public APIResponse withdraw(@AuthenticationPrincipal User user) {
-		log.info("withdraw");
-		authService.withdraw(user.getUsername());
-        return new APIResponse();
+	/**
+	 * 본인 인증 API
+	 * @param token 인증 토큰
+	 * @return
+	 */
+	@GetMapping("/verifyEmail")
+	public APIResponse<Boolean> verifyEmail(@Valid @RequestParam String token) {
+		log.info("verifyEmail");
+		return APIResponse.of(authService.verifyEmail(token));
 	}
 	
-	@PostMapping("/sendPassword")
-	public APIResponse<SendPasswordDTO.Response> sendPassword(@Valid @RequestBody final SendPasswordDTO.Request request) {
-		log.info("sendPassword");
-		return APIResponse.of(authService.resetAndSendPassword(request));
-	}
-	
-	@PostMapping("/changePassword")
-	public APIResponse<ChangePasswordDTO.Response> changePassword(@Valid @RequestBody final ChangePasswordDTO.Request request, @AuthenticationPrincipal User user) {
-		log.info("updatePassword");
-		return APIResponse.of(authService.updatePassword(request, user.getUsername()));
-	}
-	
-	@PostMapping("/sendConfirmEmail")
-	public APIResponse sendConfirmEmail(@Valid @RequestBody final ConfirmEmailDTO request) {
-		log.info("sendConfirmEmail");
-		authService.sendConfirmEmail(request.getEmail());
-		return new APIResponse();
-	}
-	
-	@GetMapping("/confirmEmail")
-	public APIResponse<Boolean> confirmEmail(@Valid @RequestParam String key) {
-		log.info("confirmEmail");
-		authService.confirmEmail(key);
-		return new APIResponse();
+	/**
+	 * 본인 인증 완료 여부 API
+	 * @param email 이메일
+	 * @return
+	 */
+	@GetMapping("/isVerifiedEmail")
+	public APIResponse<Boolean> isVerifiedEmail(@Valid @RequestParam String email) {
+		log.info("isVerifiedEmail");
+		return APIResponse.of(authService.isVerifiedEmail(email));
 	}
 
-	
-	@GetMapping("/isEmailAthenticated")
-	public APIResponse<Boolean> getAuthEmail(@Valid @RequestParam String email) {
-		log.info("isEmailAthenticated");
-		return APIResponse.of(authService.isEmailAuthenticated(email));
-	}
 }

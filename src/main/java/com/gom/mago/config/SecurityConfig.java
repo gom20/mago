@@ -1,5 +1,6 @@
 package com.gom.mago.config;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -40,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/api/auth/sendConfirmEmail").permitAll()
 			.antMatchers("/api/auth/confirmEmail").permitAll()
 			.antMatchers("/api/auth/isEmailAthenticated").permitAll()
+			.antMatchers(HttpMethod.POST, "/api/members").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.addFilterBefore(jwtAuthenticationFilter,
