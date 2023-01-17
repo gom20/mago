@@ -1,5 +1,6 @@
 package com.gom.mago.dto.stamp;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.gom.mago.entity.Stamp;

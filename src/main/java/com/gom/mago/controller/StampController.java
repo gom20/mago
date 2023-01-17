@@ -39,6 +39,12 @@ public class StampController {
 		return APIResponse.of(stampService.getStamps(user.getUsername()));
 	}
 	
+	/**
+	 * 스탬프 업데이트 API
+	 * @param request 스탬프 업데이트 정보: 스탬프 아이디, 업데이트 플래그
+	 * @param user 로그인 유
+	 * @return
+	 */
     @PutMapping
     public APIResponse<UpdateStampDTO.Response> updateStamps(@Valid @RequestBody final UpdateStampDTO.Request request, @AuthenticationPrincipal User user){
     	log.info("updateStamps");

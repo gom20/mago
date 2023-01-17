@@ -23,15 +23,14 @@ import lombok.RequiredArgsConstructor;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-//    private final RedisTemplate<String, Object> redisTemplate;
     private final RedisUtil redisUtil;
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        // 헤더에서 JWT 를 받아옵니다.
+        // 헤더에서 JWT 추출
         String accessToken = jwtTokenProvider.resolveToken((HttpServletRequest) request);
         
-     // Redis에 해당 accessToken 로그아웃 여부 확인하여, 로그아웃이 안된 토큰일 경우에만 인증 절차 진행
+        // Redis에 해당 accessToken 로그아웃 여부 확인하여, 로그아웃이 안된 토큰일 경우에만 인증 절차 진행
         if(accessToken != null && !redisUtil.hasKey(PREFIX_LOGOUT_A_TOKEN + accessToken)) {          
         	// 유효한 토큰인지 확인
             if (jwtTokenProvider.validateToken(accessToken)) {

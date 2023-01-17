@@ -32,27 +32,28 @@ public class CreateRecordDTO {
         @NotBlank
 		private String mountain;
         
-        @NotBlank
+        @NotNull
         @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
         private LocalDateTime startDatetime;
         
-        @NotBlank
+        @NotNull
         @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
         private LocalDateTime endDatetime;
         
-        @NotBlank
+        @NotNull
         private Float distance;
         
-        @NotBlank
+        @NotNull
         private Float minAltitude;
         
-        @NotBlank
+        @NotNull
         private Float maxAltitude;
         
         private String imgPath; 
         
         public Record toEntity() {
             return Record.builder()
+            		.email(email)
                      .yymmdd(startDatetime.format(DateTimeFormatter.ofPattern("yyyyMMdd")))
                      .startDatetime(startDatetime)
                      .endDatetime(endDatetime)
@@ -88,8 +89,8 @@ public class CreateRecordDTO {
         
         private Float minAltitude;
         
-        
         private Float maxAltitude;
+        
         private String imgPath; 
 
         public static Response fromEntity(@NotNull Record post){

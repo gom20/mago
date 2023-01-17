@@ -38,6 +38,7 @@ public class Record {
     @Column(nullable = false)
     private String mountain;
     
+    @Column(nullable = false)
     private String yymmdd;
     
     @Column(nullable = false)

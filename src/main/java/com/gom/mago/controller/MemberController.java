@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,9 +48,13 @@ public class MemberController {
      * @return 탈퇴 완료 이메일
      */
 	@DeleteMapping
-	public APIResponse<DeleteMemberDTO.Response> deleteMember(@Valid @RequestBody final DeleteMemberDTO.Request request, @AuthenticationPrincipal User user) {
+	public APIResponse<DeleteMemberDTO.Response> deleteMember(
+			@Valid @RequestBody final DeleteMemberDTO.Request request, 
+			@AuthenticationPrincipal User user, 
+			@RequestHeader(value="Authorization") String accessToken) {
+		
 		log.info("deleteMember");
-		return APIResponse.of(memberService.deleteMember(request, user.getUsername()));
+		return APIResponse.of(memberService.deleteMember(request, user.getUsername(), accessToken));
 	}
 
 	/**

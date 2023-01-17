@@ -35,6 +35,11 @@ public class StampService {
 		return mountainStamps.stream().map(m -> StampDTO.fromEntity(m)).collect(Collectors.toList());
 	}
 
+	/**
+	 * 스탬프 업데이트 서비스
+	 * @param request 업데이트 정보: 이메일, 마운틴 ID, 플래그
+	 * @return
+	 */
 	@Transactional
 	public UpdateStampDTO.Response updateStamps(UpdateStampDTO.Request request) {
 		Stamp stamp = modelMapper.map(request, Stamp.class);
@@ -45,8 +50,12 @@ public class StampService {
         return modelMapper.map(stampRepository.save(stamp), UpdateStampDTO.Response.class);
 	}
 	
+	/**
+	 * 스탬프 삭제 서비스
+	 * @param email 이메일
+	 */
 	@Transactional
-	public void deleteStampsByEmail(String email) {
+	public void deleteByEmail(String email) {
 		stampRepository.deleteByEmail(email);
 	}
 }

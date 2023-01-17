@@ -33,18 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()	
 			.authorizeRequests()
-			.antMatchers("/api/auth/login").permitAll()
-			.antMatchers("/api/auth/logout").permitAll()
-			.antMatchers("/api/auth/signup").permitAll()
-			.antMatchers("/api/auth/sendPassword").permitAll()
-			.antMatchers("/api/auth/refresh").permitAll()
-			.antMatchers("/api/auth/sendConfirmEmail").permitAll()
-			.antMatchers("/api/auth/confirmEmail").permitAll()
-			.antMatchers("/api/auth/isEmailAthenticated").permitAll()
+			.antMatchers("/api/auth/**").permitAll()
+			.antMatchers("/api/members/sendTempPassword").permitAll()
 			.antMatchers(HttpMethod.POST, "/api/members").permitAll()
 			.anyRequest().authenticated()
 			.and()
-			.addFilterBefore(jwtAuthenticationFilter,
-						UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 } 

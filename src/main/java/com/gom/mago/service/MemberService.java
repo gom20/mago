@@ -41,10 +41,10 @@ public class MemberService {
 	@Transactional
 	public CreateMemberDTO.Response createMember(CreateMemberDTO.Request request) {
 		if(!authService.isVerifiedEmail(request.getEmail())) {
-			throw new APIException(ErrorCode.AUTH_EMAIL_NOT_COMPLETED);
+			throw new APIException(ErrorCode.AUTH_EMAIL_NOT_VERIFIED);
 		}
 		if(!request.getPassword().equals(request.getPasswordConfirm())) {
-			throw new APIException(ErrorCode.PASSWORD_CONFIRM_NOT_MATCH);
+			throw new APIException(ErrorCode.AUTH_PASSWORD_CONFIRM_NOT_VALID);
 			
 		}
 		
@@ -60,10 +60,12 @@ public class MemberService {
 	 * @return
 	 */
 	@Transactional
-	public DeleteMemberDTO.Response deleteMember(DeleteMemberDTO.Request request, String email) {
+	public DeleteMemberDTO.Response deleteMember(DeleteMemberDTO.Request request, String email, String accessToken) {
 		Member member = authService.authenticateMember(email, request.getPassword());
 		
-		stampService.deleteStampsByEmail(email);
+		authService.logout(accessToken);
+		authService.deleteVerifiedEmail(email);
+		stampService.deleteByEmail(email);
 		recordService.deleteByEmail(email);
 		memberRepository.deleteByEmail(email);
 		
@@ -79,7 +81,7 @@ public class MemberService {
 	@Transactional
 	public UpdatePasswordDTO.Response updatePassword(UpdatePasswordDTO.Request request, String email){
 		if(!request.getNewPassword().equals(request.getNewPasswordConfirm())) {
-			throw new APIException(ErrorCode.PASSWORD_CONFIRM_NOT_MATCH);
+			throw new APIException(ErrorCode.AUTH_PASSWORD_CONFIRM_NOT_VALID);
 		}
 		
 		Member member = authService.authenticateMember(email, request.getPassword());	
@@ -99,7 +101,7 @@ public class MemberService {
 	@Transactional
 	public SendTempPasswordDTO.Response sendTempPassword(SendTempPasswordDTO.Request request) {
 		Member member = memberRepository.findByEmailAndName(request.getEmail(), request.getName())
-				.orElseThrow(() -> new APIException(ErrorCode.RESET_PW_FAIL));
+				.orElseThrow(() -> new APIException(ErrorCode.MEMBER_USER_NOT_FOUND));
 
 		String tempPassword = RandomStringUtils.randomAlphanumeric(8);
 		member.setPassword(passwordEncoder.encode(tempPassword));
@@ -107,8 +109,8 @@ public class MemberService {
 
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(request.getEmail());
-		message.setSubject(MessageUtil.getMessage("auth.passwordEmailTitle"));
-		message.setText(MessageUtil.getMessage("auth.passwordEmailMessage", new Object[] { tempPassword }));
+		message.setSubject(MessageUtil.getMessage("member.tempPasswordEmailTitle"));
+		message.setText(MessageUtil.getMessage("member.tempPasswordEmailMessage", new Object[] { tempPassword }));
 		emailService.sendEmail(message);
 		
 		return SendTempPasswordDTO.Response.fromEntity(member.getEmail(), member.getName());

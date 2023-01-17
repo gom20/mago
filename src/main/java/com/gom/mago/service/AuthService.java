@@ -71,6 +71,10 @@ public class AuthService {
 	public TokenDTO refreshToken(TokenDTO request) {
 		String refreshToken = request.getRefreshToken(), accessToken = request.getAccessToken();
 
+		if(redisUtil.hasKey(PREFIX_LOGOUT_A_TOKEN + accessToken)) {
+			throw new APIException(ErrorCode.AUTH_ACCESS_TOKEN_NOT_VALID);
+		}
+
 		if (jwtTokenProvider.validateToken(accessToken)) {
 			// Access Token 유효 && Refresh Token 만료: Refresh Token 발급
 			String userPk = jwtTokenProvider.getUserPk(accessToken);
@@ -82,15 +86,17 @@ public class AuthService {
 		} else {
 			// Access Token 만료 && Refresh Token 만료: 에러 발생, 재로그인 필요
 			if (!jwtTokenProvider.validateToken(refreshToken)) {
-				throw new APIException(ErrorCode.ACCESS_AND_REFRESH_TOKEN_EXPIRE);
+				throw new APIException(ErrorCode.AUTH_ACCESS_AND_REFRESH_TOKEN_EXPIRE);
 			}
 
-			// Access Token 만료 && Refresh Token 유효: Refresh 토큰 검증하여 Access Token 발급
+			// Access Token 만료 && Refresh Token 유효: 저장된 Refresh 토큰 검증하여 Access Token 발급
 			String userPk = jwtTokenProvider.getUserPk(refreshToken);
-
+			
 			String savedRefreshToken = redisUtil.getData(PREFIX_R_TOKEN + userPk);
-			if (!savedRefreshToken.equals(request.getRefreshToken())) {
-				throw new APIException(ErrorCode.REFRESH_TOKEN_NOT_VALID);
+			if (savedRefreshToken == null || !savedRefreshToken.equals(request.getRefreshToken())) {
+				// null 케이스: 로그아웃, 탈퇴 회원 리프레쉬 토큰으로 엑세스 토큰 발급 방지
+				// not match 케이스: 리프레쉬 토큰 저장된 값만 허용
+				throw new APIException(ErrorCode.AUTH_REFRESH_TOKEN_NOT_VALID);
 			}
 			accessToken = jwtTokenProvider.generateAccessToken(userPk);
 		}
@@ -110,7 +116,7 @@ public class AuthService {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(email);
 		message.setSubject("마운틴고 회원 가입 본인 인증");
-		message.setText("http://localhost:8080/api/auth/verifyEmail?key=" + uuid.toString());
+		message.setText("http://localhost:8080/api/auth/verifyEmail?token=" + uuid.toString());
 		emailService.sendEmail(message);
 	}
 
@@ -146,11 +152,21 @@ public class AuthService {
 	 * @return 회원 정보
 	 */
 	public Member authenticateMember(String email, String password) {
-		Member member = memberRepository.findByEmail(email).orElseThrow(() -> new APIException(ErrorCode.AUTHENTICATE_MEMBER_FAIL));
+		Member member = memberRepository.findByEmail(email).orElseThrow(() -> new APIException(ErrorCode.AUTH_AUTHENTICATE_MEMBER_FAIL));
 		if (!passwordEncoder.matches(password, member.getPassword())) {
-			throw new APIException(ErrorCode.AUTHENTICATE_MEMBER_FAIL);
+			throw new APIException(ErrorCode.AUTH_AUTHENTICATE_MEMBER_FAIL);
 		}
 		return member;
+	}
+	
+	/**
+	 * 본인 인증 정보 삭제 서비스
+	 * @param email 이메일
+	 */
+	public void deleteVerifiedEmail(String email) {
+		if(redisUtil.hasKey(PREFIX_V_EMAIL + email)) {
+			redisUtil.deleteData(PREFIX_V_EMAIL + email);
+		}
 	}
 
 }

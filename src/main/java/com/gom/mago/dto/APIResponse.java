@@ -23,6 +23,6 @@ public class APIResponse<T> extends ErrorResponse {
 	}
 
 	public static <T> APIResponse<T> of(T data) {
-		return new APIResponse(data);
+		return new APIResponse<T>(data);
 	}
 }

@@ -36,7 +36,7 @@ public class CreateMemberDTO {
 		private String name;
 
         @NotBlank(message = "비밀번호는 필수 입력값입니다.")
-        @Pattern(regexp="^[A-Za-z[0-9]]{10,20}", message="비밀번호는 영문과 숫자를 포함해서 8~20 자리 이내로 입력해주세요.")
+        @Pattern(regexp="^[A-Za-z[0-9]]{8,20}", message="비밀번호는 영문과 숫자를 포함해서 8~20 자리 이내로 입력해주세요.")
 		private String password;
         
         @NotBlank(message = "비밀번호 확인은 필수 입력값입니다.")
