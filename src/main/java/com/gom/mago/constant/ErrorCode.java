@@ -19,12 +19,14 @@ public enum ErrorCode {
 	AUTH_EMAIL_NOT_VERIFIED(201, "auth.emailNotVerified", HttpStatus.UNAUTHORIZED),
 	AUTH_ACCESS_AND_REFRESH_TOKEN_EXPIRE(202, "auth.accessAndRefreshTokenExpire", HttpStatus.UNAUTHORIZED),
 	AUTH_REFRESH_TOKEN_NOT_VALID(203, "auth.refreshTokenNotValid", HttpStatus.UNAUTHORIZED),
-	AUTH_ACCESS_TOKEN_NOT_VALID(204, "auth.accessTokenNotVliad", HttpStatus.UNAUTHORIZED),
+	AUTH_ACCESS_TOKEN_NOT_VALID(204, "auth.accessTokenNotValid", HttpStatus.UNAUTHORIZED),
 	AUTH_AUTHENTICATE_MEMBER_FAIL(205, "auth.authenticateMemberFail", HttpStatus.NOT_FOUND),
 	AUTH_PASSWORD_CONFIRM_NOT_VALID(206, "auth.passwordConfirmNotMatch", HttpStatus.BAD_REQUEST),
 	
 	MEMBER_DUPLICATE_USER(300, "member.duplicateUser", HttpStatus.BAD_REQUEST),
-	MEMBER_USER_NOT_FOUND(201, "member.userNotFound", HttpStatus.NOT_FOUND);
+	MEMBER_USER_NOT_FOUND(301, "member.userNotFound", HttpStatus.NOT_FOUND),
+	
+	EMAIL_SEND_EMAIL_FAIL(401, "email.sendEmailFail", HttpStatus.INTERNAL_SERVER_ERROR);
 
 	private final int code;
 	private final String message;

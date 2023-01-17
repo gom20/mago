@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -112,12 +111,7 @@ public class AuthService {
 	public void sendVerificationEmail(String email) {
 		String uuid = UUID.randomUUID().toString();
 		redisUtil.setDataExpire(PREFIX_V_TOKEN + uuid, email, 5 * 60 * 1000L);
-		
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(email);
-		message.setSubject("마운틴고 회원 가입 본인 인증");
-		message.setText("http://localhost:8080/api/auth/verifyEmail?token=" + uuid.toString());
-		emailService.sendEmail(message);
+		emailService.sendVerifyEmail(email, uuid.toString());
 	}
 
 	/**
@@ -127,11 +121,11 @@ public class AuthService {
 	 */
 	public Boolean verifyEmail(String token) {
 		if(!redisUtil.hasKey(PREFIX_V_TOKEN + token)) {
-			throw new APIException(ErrorCode.BAD_REQUEST);
+			return false;
 		}
 		
 		String email = redisUtil.getData(PREFIX_V_TOKEN + token);
-		redisUtil.deleteData(token);
+		redisUtil.deleteData(PREFIX_V_TOKEN + token);
 		redisUtil.setDataExpire(PREFIX_V_EMAIL + email, "VERIFIED", 180 * 60 * 1000L);
 		return true;
 	}

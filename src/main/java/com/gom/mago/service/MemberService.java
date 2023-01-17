@@ -1,5 +1,7 @@
 package com.gom.mago.service;
 
+import java.util.HashMap;
+
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -106,12 +108,7 @@ public class MemberService {
 		String tempPassword = RandomStringUtils.randomAlphanumeric(8);
 		member.setPassword(passwordEncoder.encode(tempPassword));
 		memberRepository.save(member);
-
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(request.getEmail());
-		message.setSubject(MessageUtil.getMessage("member.tempPasswordEmailTitle"));
-		message.setText(MessageUtil.getMessage("member.tempPasswordEmailMessage", new Object[] { tempPassword }));
-		emailService.sendEmail(message);
+		emailService.sendTempPasswordEmail(request.getEmail(), tempPassword);
 		
 		return SendTempPasswordDTO.Response.fromEntity(member.getEmail(), member.getName());
 	}

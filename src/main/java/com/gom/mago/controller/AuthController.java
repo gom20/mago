@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.gom.mago.dto.APIResponse;
-import com.gom.mago.dto.auth.SendVerificationEmailDTO;
 import com.gom.mago.dto.auth.LoginDTO;
 import com.gom.mago.dto.auth.LogoutDTO;
+import com.gom.mago.dto.auth.SendVerificationEmailDTO;
 import com.gom.mago.dto.auth.TokenDTO;
 import com.gom.mago.service.AuthService;
 
@@ -80,9 +81,13 @@ public class AuthController {
 	 * @return
 	 */
 	@GetMapping("/verifyEmail")
-	public APIResponse<Boolean> verifyEmail(@Valid @RequestParam String token) {
-		log.info("verifyEmail");
-		return APIResponse.of(authService.verifyEmail(token));
+	public ModelAndView verifyEmail(@Valid @RequestParam String token) {
+		log.info("verifyEmail");	
+		Boolean result = authService.verifyEmail(token);
+	    ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("verify_email_result");
+        modelAndView.addObject("result", result);
+		return modelAndView;
 	}
 	
 	/**

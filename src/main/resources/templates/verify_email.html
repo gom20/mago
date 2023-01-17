@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<div layout:fragment="content" style="margin:10px;" align="center">		
+	    <h3>안녕하세요.</h3>
+	    <h3><b style="color:#0DD36E">마운틴고</b> 회원가입을 위한 메일 인증 안내입니다.</h3>
+	    <br>
+	    <p>아래 '인증하기' 버튼을 클릭하여 인증 완료 후</p>
+	    <p>앱으로 돌아가 회원 가입을 진행해 주세요.</p>
+	    <br>
+	    <div>
+		    <a th:href="@{${verifyEmailUrl}}" style="color:#FFFFFF; text-decoration: none">
+				<div align="center" style="color:#FFFFFF; background-color:#0DD36E; width: 200px; height: 40px; line-height: 40px; border: none; border-radius: 20px; vertical-align: middle;">
+					인증하기 
+				</div>
+		    </a>
+		    <div style="color:grey;font-size:10px;margin-top:10px">위 링크는 5분 간 유효합니다.</div>
+	    </div>	
+	</div>
+</body>
+</html>

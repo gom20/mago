@@ -57,6 +57,9 @@ dependencies {
 	
 	// h2
     runtimeOnly 'com.h2database:h2'
+    
+    // email html
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('test') {

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<div layout:fragment="content" style="margin:10px;" align="center">		
+	    <h3><b style="color:#0DD36E">마운틴고</b> 본인인증</h3>
+	    <br>
+	    <div th:if="${result} == true">
+		    <p>인증이 완료 되었습니다.</p>
+		    <p>앱으로 돌아가 회원 가입을 진행해 주세요.</p>
+	    </div>
+	    <div th:unless="${result} == true">
+		    <p>인증에 실패하였습니다.</p>
+		    <p>인증 메일을 재전송하여 다시 시도해보시기 바랍니다.</p>
+	    </div>
+	    <br>
+	</div>
+</body>
+</html>
