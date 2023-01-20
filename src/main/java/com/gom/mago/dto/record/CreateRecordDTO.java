@@ -49,6 +49,9 @@ public class CreateRecordDTO {
         @NotNull
         private Float maxAltitude;
         
+        @NotNull
+        private Integer breakTime;
+        
         private String imgPath; 
         
         public Record toEntity() {
@@ -61,6 +64,7 @@ public class CreateRecordDTO {
                      .distance(distance)
                      .minAltitude(minAltitude)
                      .maxAltitude(maxAltitude)
+                     .breakTime(breakTime)
                      .imgPath(imgPath)
                      .build();
         }
@@ -91,20 +95,32 @@ public class CreateRecordDTO {
         
         private Float maxAltitude;
         
+        private Integer totalTime; 
+        
+        private Integer hikingTime;
+        
+        private Integer breakTime;
+        
+        private Float avgSpeed;
+        
         private String imgPath; 
 
-        public static Response fromEntity(@NotNull Record post){
+        public static Response fromEntity(@NotNull Record record){
             return Response.builder()
-                    .uid(post.getUid())
-                    .email(post.getEmail())
-                    .yymmdd(post.getYymmdd())
-                    .startDatetime(post.getStartDatetime())
-                    .endDatetime(post.getEndDatetime())
-                    .mountain(post.getMountain())
-                    .distance(post.getDistance())
-                    .minAltitude(post.getMinAltitude())
-                    .maxAltitude(post.getMaxAltitude())
-                    .imgPath(post.getImgPath())
+                    .uid(record.getUid())
+                    .email(record.getEmail())
+                    .yymmdd(record.getYymmdd())
+                    .startDatetime(record.getStartDatetime())
+                    .endDatetime(record.getEndDatetime())
+                    .mountain(record.getMountain())
+                    .distance(record.getDistance())
+                    .minAltitude(record.getMinAltitude())
+                    .maxAltitude(record.getMaxAltitude())
+                    .totalTime(record.getTotalTime())
+                    .hikingTime(record.getHikingTime())
+                    .breakTime(record.getBreakTime())
+                    .avgSpeed(record.getAvgSpeed())
+                    .imgPath(record.getImgPath())
                     .build();
         }
     }

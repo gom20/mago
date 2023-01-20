@@ -42,20 +42,32 @@ public class RecordDTO {
     
     private Float maxAltitude;
     
+    private Integer totalTime; 
+    
+    private Integer hikingTime;
+    
+    private Integer breakTime;
+    
+    private Float avgSpeed;
+    
     private String imgPath; 
     
-    public static RecordDTO fromEntity(@NotNull Record post){
+    public static RecordDTO fromEntity(@NotNull Record record){
         return RecordDTO.builder()
-                .uid(post.getUid())
-                .email(post.getEmail())
-                .yymmdd(post.getYymmdd())
-                .startDatetime(post.getStartDatetime())
-                .endDatetime(post.getEndDatetime())
-                .mountain(post.getMountain())
-                .distance(post.getDistance())
-                .minAltitude(post.getMinAltitude())
-                .maxAltitude(post.getMaxAltitude())
-                .imgPath(post.getImgPath())
+                .uid(record.getUid())
+                .email(record.getEmail())
+                .yymmdd(record.getYymmdd())
+                .startDatetime(record.getStartDatetime())
+                .endDatetime(record.getEndDatetime())
+                .mountain(record.getMountain())
+                .distance(record.getDistance())
+                .minAltitude(record.getMinAltitude())
+                .maxAltitude(record.getMaxAltitude())
+                .totalTime(record.getTotalTime())
+                .hikingTime(record.getHikingTime())
+                .breakTime(record.getBreakTime())
+                .avgSpeed(record.getAvgSpeed())
+                .imgPath(record.getImgPath())
                 .build();
     }
     

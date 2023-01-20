@@ -57,6 +57,18 @@ public class Record {
     private Float maxAltitude;
     
     @Column(nullable = false)
+    private Integer totalTime; 
+    
+    @Column(nullable = false)
+    private Integer hikingTime;
+    
+    @Column(nullable = false)
+    private Integer breakTime;
+    
+    @Column(nullable = false)
+    private Float avgSpeed;
+    
+    @Column(nullable = true)
     private String imgPath;
     
     @CreatedDate

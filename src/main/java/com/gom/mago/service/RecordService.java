@@ -1,5 +1,8 @@
 package com.gom.mago.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +35,21 @@ public class RecordService {
 	 */
 	@Transactional
 	public CreateRecordDTO.Response createRecord(CreateRecordDTO.Request request) {
-        return modelMapper.map(recordRepository.save(request.toEntity()), CreateRecordDTO.Response.class);
+		// 하이킹 시간
+		int totalTime = (int) ChronoUnit.SECONDS.between(request.getStartDatetime(), request.getEndDatetime());
+		BigDecimal hikingTime = new BigDecimal(totalTime).subtract(new BigDecimal(String.valueOf(request.getBreakTime())));
+		
+		// 평균 속도
+		BigDecimal hikingHours = hikingTime.divide(new BigDecimal("3600"), 5, RoundingMode.CEILING);
+		BigDecimal distance = new BigDecimal(String.valueOf(request.getDistance()));
+		Float avgSpeed = distance.divide(hikingHours, 5, RoundingMode.CEILING).floatValue();
+		
+		Record record = request.toEntity();
+		record.setAvgSpeed(avgSpeed);
+		record.setTotalTime(totalTime);
+		record.setHikingTime(hikingTime.intValue());
+		
+        return modelMapper.map(recordRepository.save(record), CreateRecordDTO.Response.class);
 	}
 
 	/**
