@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class LogoutDTO {
 	
-    @NotNull
+//    @NotNull
 	private String accessToken;
 	
 }
