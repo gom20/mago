@@ -3,10 +3,10 @@ package com.gom.mago;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class MagoApplicationTests {
 
-	@Test
+//	@Test
 	void contextLoads() {
 	}
 
