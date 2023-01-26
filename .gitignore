@@ -6,6 +6,8 @@ build/
 !**/src/test/**/build/
 /**/application.properties
 /**/application.yml
+/**/*.properties
+/**/*.yml
 
 ### STS ###
 .apt_generated

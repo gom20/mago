@@ -1,29 +1,26 @@
 package com.gom.mago.config;
 
-import javax.sql.DataSource;
-
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Primary;
 
-import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-@Configuration
-@PropertySource("classpath:/application.properties")
+@Configuration(proxyBeanMethods = false)
 public class DatabaseConfig {
 
-    @Bean
-    @ConfigurationProperties(prefix="spring.datasource.hikari")
-    public HikariConfig hikariConfig() {
-        return new HikariConfig();
-    }
+	@Bean
+	@Primary
+	@ConfigurationProperties("spring.datasource")
+	public DataSourceProperties dataSourceProperties() {
+		return new DataSourceProperties();
+	}
 
-    @Bean
-    public DataSource dataSource() throws Exception {
-        DataSource dataSource = new HikariDataSource(hikariConfig());
-        System.out.println(dataSource.toString());
-        return dataSource;
-    }
+	@Bean
+	@ConfigurationProperties("spring.datasource.hikari")
+	public HikariDataSource dataSource(DataSourceProperties properties) {
+		return properties.initializeDataSourceBuilder().type(HikariDataSource.class).build();
+	}
 }
