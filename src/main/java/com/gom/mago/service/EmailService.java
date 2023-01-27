@@ -77,7 +77,7 @@ public class EmailService {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(to);
 		message.setSubject("마운틴고 회원 가입 본인 인증");
-		String verifyEmailUrl = domain + "/api/auth/verifyEmail?token=" + token;
+		String verifyEmailUrl = "http://" + domain + "/api/auth/verifyEmail?token=" + token;
 		sendEmail(message, "verify_email", new HashMap<String, Object>(){{put("verifyEmailUrl", verifyEmailUrl);}});
 	}
 	
