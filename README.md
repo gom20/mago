@@ -941,7 +941,6 @@ Content-type: application/json;charset=UTF-8
 <summary>성공 코드</summary>
 
 **성공 코드**
-
 ----
 
 * **코드 정의**
