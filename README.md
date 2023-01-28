@@ -9,7 +9,7 @@
 |로그인| `POST`     | `api/auth/login`  | |
 |로그아웃| `POST` | `api/auth/logout`| |
 |토큰 리프레쉬| `POST` | `api/auth/refresh` | |
-|본인 인증 메일 발송| `GET`   | `api/auth/sendVerificationEmail` | |
+|본인 인증 메일 발송| `POST`   | `api/auth/sendVerificationEmail` | |
 |본인 인증| `GET`      | `api/auth/verifyEmail/{token}`  | |
 
 ### 🙍‍♀️ Member
@@ -94,8 +94,8 @@ Content-type: application/json;charset=UTF-8
     "code": 0,
     "message": "요청이 성공적으로 처리 되었습니다.",
     "data": {
-        "accessToken": "eyJhcGciOiJIUzI1NiJ9.eyFzdWIiOiJyaGFsZHVkODlASZ21hawdY29tIiwiaWF0IjoxNjc0ODg3NxQO6t7Q...",
-        "refreshToken": "eyJhcGciOiJIUzI1NiJ9.eyFzdWIiOiJyaGFsZHVkODlASZ21hawdY29tIiwiaWF0IjoxNjT_1vF7odxv7hsc...",
+        "accessToken": "eyJhcGciOiJIUzI1NiJ9.eyFzdWIiOiJyaGFsZHVkODlASZ21hawdY29tIiwiaWF0IjoxNj...",
+        "refreshToken": "eyJhcGciOiJIUzI1NiJ9.eyFzdWIiOiJyaGFsZHVkODlASZ21hawdY29tIiwiaWF0IjoxN...",
         "user": {
             "email": "mago@test.com",
             "name": "마고"
@@ -132,7 +132,7 @@ Content-type: application/json;charset=UTF-8
 ```
 Content-type: application/json;charset=UTF-8
 {
-    "accessToken": "eyJhbGciOiJIUsd1NiJ9.eyJzdWIiOiJyaGFsZHVkODOSZ21haWwuY29tIiwiaWF0IjoxNjc0FDg3NDIz...."
+    "accessToken": "eyJhbGciOiJIUsd1NiJ9.eyJzdWIiOiJyaGFsZHVkODOSZ21haWwuY29tIiwiaWF0IjoxNjc0...."
 }   
 ```
 * **Response**
@@ -289,7 +289,11 @@ Content-type: application/json;charset=UTF-8
   |Name| Type      |Length|Description|Required|
   |-----| --------|-----------|---------|-----------|
   |token| `String` |          | 본인 인증 토큰   |   Y       |
-
+  
+  ***Sample Request*** 
+```
+.../api/auth/verifyEmail/JzdWIiOiJyaGFsZKVkOD2AZ21haWwuY29tIiJzdWIiOiJyaGFsZKVkOD2AZ21haWwuY29tI
+```
 * **Response**
 
   ***인증 완료 화면 Redirect***
@@ -560,6 +564,12 @@ Content-type: application/json;charset=UTF-8
   |-----| --------|-----------|---------|-----------|
   | page | `Integer` |         | 페이지 번호|  |
   | size | `Integer` |    | 사이즈 | |
+  
+  ***Sample Request*** 
+```
+Authorization: AccessToken
+.../api/records?page=3
+```
 
 * **Response**
 
@@ -873,7 +883,7 @@ Content-type: application/json;charset=UTF-8
 <details markdown="1" style="margin-left:14px">
 <summary>100대 명산 스탬프 플래그 변경</summary>
 
-**100대 명산 스탬프 플래그 변경**
+**100대 명산 스탬프 변경**
 ----
 100대 명산 등정 여부 플래그를 변경합니다.
 
@@ -926,26 +936,79 @@ Content-type: application/json;charset=UTF-8
 
 <br>
 
-### 🚧 에러 코드
+### 🚧 응답 코드
+<details markdown="1">
+<summary>성공 코드</summary>
+
+**성공 코드**
+
+----
+
+* **코드 정의**
+  |Code| Http Status |Message |
+  |-----|--------|-----------|
+  |`0`| `200` | 요청이 성공적으로 처리 되었습니다.|
+
+* **Response**
+
+  |Name| Type     | Description |
+  |-----| --------|-----------|
+  | code| `Integer` | 코드 |
+  | message| `String` | 메세지|
+  | data| `Object` | 데이터 |
+
+* **Success Response:**
+```
+HTTP 200 OK
+Content-type: application/json;charset=UTF-8
+{
+    "code": 0,
+    "message": "요청이 성공적으로 처리 되었습니다.",
+    "data": {
+        ... 
+    }
+}
+```
+</details>
+
 
 <details markdown="1">
 <summary>에러 코드</summary>
 
-**HTTP 상태 코드**
+**에러 코드**
 ----
 
+* **코드 정의**
+  |Code| Http Status |Message |
+  |-----|--------|-----------|
+  |`100`| `500` | 서버에서 에러가 발생하였습니다.|
+  |`101`| `400` | 잘못된 요청입니다.|  
+  |`200`| `401` | 권한이 없습니다.|
+  |`201`| `401` | 이메일 본인 인증이 완료되지 않았습니다.|  
+  |`202`| `401` | 토큰이 만료되었습니다.|
+  |`203`| `401` | 리프레쉬 토큰이 유효하지 않습니다.|    
+   |`204`| `401` | 엑세스 토큰이 유효하지 않습니다.|
+  |`205`| `404` | 인증에 실패했습니다. 입력한 사용자 이름 또는 비밀번호가 잘못 되었습니다. |  
+  |`206`| `400` | 비밀 번호와 확인용 비밀번호가 일치하지 않습니다.|
+  |`300`| `400` | 이미 가입된 이메일입니다.|  
+  |`301`| `404` | 일치하는 사용자가 없습니다. 입력한 정보를 다시 확인해주세요.|
+  |`401`| `500` | 이메일 전송에 실패하였습니다.|    
+
+  
 * **Response**
 
-  `code=[Integer] - 에러 코드`  
-  `message=[String] - 에러 메시지`
+  |Name| Type     | Description |
+  |-----| --------|-----------|
+  | code| `Integer` | 코드 |
+  | message| `String` | 메세지|
+
 
 * **Success Response:**
 ```
 HTTP/1.1 404 Not Found
 {
     "code": 205,
-    "message": "인증에 실패했습니다. 입력한 사용자 이름 또는 비밀번호가 잘못되었습니다. "
+    "message": "인증에 실패했습니다. 입력한 사용자 이름 또는 비밀번호가 잘못 되었습니다. "
 }
 ```
-
 </details>
