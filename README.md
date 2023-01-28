@@ -12,7 +12,7 @@
 |본인 인증 메일 발송| `POST`   | `api/auth/sendVerificationEmail` | |
 |본인 인증| `GET`      | `api/auth/verifyEmail/{token}`  | |
 
-### 🙍‍♀️ Member
+### 👩 Member
 
 |Feature| Method     | URI |             Authorization |
 |-----|------------|--------------------|---------------|
