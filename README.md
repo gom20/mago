@@ -828,7 +828,7 @@ Content-type: application/json;charset=UTF-8
   ***Sample Request*** 
 ```
 Authrozation: AccessToken
-api/stamps
+.../api/stamps
 ```
 
 * **Response**
@@ -936,7 +936,7 @@ Content-type: application/json;charset=UTF-8
 
 <br>
 
-### 🚧 응답 코드
+### 📬 응답 코드
 <details markdown="1">
 <summary>성공 코드</summary>
 
@@ -1003,7 +1003,7 @@ Content-type: application/json;charset=UTF-8
   | message| `String` | 메세지|
 
 
-* **Success Response:**
+* **Error Response:**
 ```
 HTTP/1.1 404 Not Found
 {
