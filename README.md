@@ -1,9 +1,9 @@
-# 🏔 마운틴고
+# 🏔 Mountain Go
 <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat&logo=Spring%20Boot&logoColor=white"/> <img src="https://img.shields.io/badge/mariaDB-003545?style=flat&logo=mariaDB&logoColor=white"/> <img src="https://img.shields.io/badge/redis-DC382D?style=flat&logo=redis&logoColor=white"/>
 
-## 📝 API List
+## 📋 API List
 
-### 🔒 Auth
+### Auth
 
 |Feature | Method     | URI               | Authorization |
 |-------|------------|--------------------|---------------|
@@ -13,7 +13,7 @@
 |본인 인증 메일 발송| `POST`   | `api/auth/sendVerificationEmail` | |
 |본인 인증| `GET`      | `api/auth/verifyEmail/{token}`  | |
 
-### 👩 Member
+### Member
 
 |Feature| Method     | URI |             Authorization |
 |-----|------------|--------------------|---------------|
@@ -22,7 +22,7 @@
 | 회원 비밀번호 변경 | `PUT`      | `api/members/password`| required |
 | 임시 비밀번호 메일 발송| `POST` | `api/members/sendTempPassword`  | |
 
-### 📰 Record
+### Record
 
 |Feature         | Method      | URI | Authorization |
 |-----|------------|--------------------|------|
@@ -30,7 +30,7 @@
 | 등산 기록 등록| `POST` | `api/records`       | required |
 | 등산 기록 삭제 | `DELETE`      | `api/records`| required |
 
-### 🚩 Stamp
+### Stamp
 
 |Feature| Method   | URI |Authorization |
 |-----|------------|--------------------|------|
@@ -40,9 +40,9 @@
 
 <br>
 
-## 📝 API Reference
+## 🔍 API Reference
 
-### 🔒 Auth
+### Auth
 
 <details markdown="1" style="margin-left:14px">
 <summary>로그인</summary>
@@ -303,7 +303,7 @@ Content-type: application/json;charset=UTF-8
 
 <br>
 
-### 🙍‍♀️ Member
+### Member
 
 <details markdown="1" style="margin-left:14px">
 <summary>회원 가입</summary>
@@ -540,7 +540,7 @@ Content-type: application/json;charset=UTF-8
 
 <br>
 
-### 📰 Record
+### Record
 
 <details markdown="1" style="margin-left:14px">
 <summary>등산 기록 조회</summary>
@@ -809,7 +809,7 @@ Content-type: application/json;charset=UTF-8
 
 <br>
 
-### 🚩 Stamp
+### Stamp
 
 <details markdown="1" style="margin-left:14px">
 <summary>100대 명산 스탬프 조회</summary>
@@ -937,7 +937,7 @@ Content-type: application/json;charset=UTF-8
 
 <br>
 
-### 📬 응답 코드
+### Response Code
 <details markdown="1">
 <summary>성공 코드</summary>
 
