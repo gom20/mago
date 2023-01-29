@@ -1,4 +1,5 @@
 # 🏔 마운틴고
+<img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat&logo=Spring%20Boot&logoColor=white"/> <img src="https://img.shields.io/badge/mariaDB-003545?style=flat&logo=mariaDB&logoColor=white"/> <img src="https://img.shields.io/badge/redis-DC382D?style=flat&logo=redis&logoColor=white"/>
 
 ## 📝 API List
 
@@ -881,7 +882,7 @@ Content-type: application/json;charset=UTF-8
 </details>
 
 <details markdown="1" style="margin-left:14px">
-<summary>100대 명산 스탬프 플래그 변경</summary>
+<summary>100대 명산 스탬프 변경</summary>
 
 **100대 명산 스탬프 변경**
 ----
