@@ -14,5 +14,9 @@ public interface MountainStamp {
 	
 	Integer getPositionY();
 	
+	String getLocation();
+	
+	Float getAltitude();
+	
 	Integer getFlag();
 }

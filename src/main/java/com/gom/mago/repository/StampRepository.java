@@ -16,7 +16,7 @@ public interface StampRepository extends JpaRepository<Stamp, Long> {
 	@Query(nativeQuery = true, value = 
 					"SELECT M.UID AS mountainId, M.MOUNTAIN_NAME AS mountainName, " + 
 						"M.REGION_TYPE AS regionType, M.REGION_NAME AS regionName, " + 
-						"M.POSITION_X AS positionX, M.POSITION_Y AS positionY, IFNULL(S.FLAG, 0) flag " + 
+						"M.POSITION_X AS positionX, M.POSITION_Y AS positionY, M.LOCATION AS location, M.ALTITUDE AS altitude, IFNULL(S.FLAG, 0) flag " + 
 					"FROM MOUNTAIN M " + 
 					"LEFT JOIN STAMP S " + 
 					"ON M.UID = S.MOUNTAIN_ID AND S.EMAIL=:email")
